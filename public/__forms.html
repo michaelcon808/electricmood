@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!--
+  Hidden form definition for Netlify Forms. Netlify scans static HTML at deploy time;
+  this file guarantees the "contact" form is registered even if the contact page changes.
+  Keep field names in sync with app/(site)/contact/page.tsx.
+-->
+<html>
+  <head>
+    <meta name="robots" content="noindex" />
+  </head>
+  <body>
+    <form name="contact" data-netlify="true" netlify-honeypot="company" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input name="company" />
+      <input name="name" />
+      <input name="email" type="email" />
+      <select name="subject">
+        <option>Question</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

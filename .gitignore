@@ -1,0 +1,22 @@
+# dependencies
+node_modules
+
+# build output
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+
+# generated during prebuild from redirects.json
+public/_redirects
+
+# env files (only .env.example is committed)
+.env*
+!.env.example
+
+# netlify
+.netlify
+
+# misc
+.DS_Store
+npm-debug.log*
