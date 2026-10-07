@@ -16,8 +16,8 @@ export type ToolInfo = {
   assumptions: string[];
   explainer: { heading: string; body: string }[];
   faqs: { question: string; answer: string }[];
-  /** Slugs of posts (ideally reviews) for the recommended-products box. Unpublished slugs are skipped. */
-  recommendedPostSlugs: string[];
+  /** Post slugs for the recommended-products box. Posts that aren't published yet are skipped. */
+  recommendedPosts: string[];
 };
 
 export const TOOLS: ToolInfo[] = [
@@ -69,10 +69,10 @@ export const TOOLS: ToolInfo[] = [
         answer: 'Yes. Lithium-ion batteries deliver noticeably less energy below about 10 °C. Storing the battery indoors and charging it warm helps.',
       },
     ],
-    recommendedPostSlugs: ['sample-voltway-s1-review', 'sample-how-to-choose-an-e-bike'],
+    recommendedPosts: ['best-commuter-electric-scooters', 'best-electric-bikes-with-a-passenger-seat'],
   },
   {
-    slug: 'charging-calculator',
+    slug: 'charging-time-calculator',
     name: 'Charging time & cost calculator',
     icon: '⚡',
     short: 'Work out how long a charge takes and what it costs in electricity.',
@@ -111,7 +111,7 @@ export const TOOLS: ToolInfo[] = [
         answer: 'Only one the manufacturer approves for your battery. Higher current generates more heat and can shorten battery life or be unsafe.',
       },
     ],
-    recommendedPostSlugs: ['sample-what-is-a-watt-hour', 'sample-voltway-s1-review'],
+    recommendedPosts: ['best-chargers', 'how-long-does-an-electric-scooter-take-to-charge'],
   },
   {
     slug: 'power-station-calculator',
@@ -156,7 +156,7 @@ export const TOOLS: ToolInfo[] = [
         answer: 'Lithium iron phosphate — a battery chemistry common in power stations. It is heavier than NMC but lasts thousands of cycles and is very stable.',
       },
     ],
-    recommendedPostSlugs: ['sample-what-is-a-watt-hour'],
+    recommendedPosts: ['best-chargers'],
   },
 ];
 

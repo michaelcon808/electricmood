@@ -1,23 +1,23 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { shared, silos } from '@/config/site-structure';
 import { SITE_NAME, SITE_TAGLINE } from '@/lib/constants';
-import { getCategories, getPosts, summarize } from '@/lib/content';
-import { categoryLabel, pageMetadata } from '@/lib/seo';
+import { getPosts, getPostsBySilo, summarize } from '@/lib/content';
+import { pageMetadata } from '@/lib/seo';
 import { absoluteUrl, paths } from '@/lib/site';
-import { TOOLS } from '@/lib/tools';
-import { PostGrid } from '@/components/site/PostCard';
+import { ACCENT } from '@/components/site/accents';
 import { JsonLd } from '@/components/site/JsonLd';
+import { PostGrid } from '@/components/site/PostCard';
 
 export const metadata: Metadata = pageMetadata({
-  title: `${SITE_NAME} – E-Scooter & E-Bike Reviews, Guides and Calculators`,
+  title: `${SITE_NAME} – E-Scooter, E-Bike & E-Skateboard Reviews, Guides and Calculators`,
   absoluteTitle: true,
   description: SITE_TAGLINE,
   path: '/',
 });
 
 export default function HomePage() {
-  const posts = getPosts().slice(0, 9).map(summarize);
-  const categories = getCategories();
+  const latest = getPosts().slice(0, 6).map(summarize);
 
   return (
     <>
@@ -36,63 +36,50 @@ export default function HomePage() {
             Electric rides, explained
           </p>
           <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Find the right e-scooter or e-bike — without the hype.
+            Find the right electric ride — without the hype.
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">{SITE_TAGLINE}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={paths.category('e-scooters')} className="btn-primary">
-              E-Scooters
-            </Link>
-            <Link href={paths.category('e-bikes')} className="btn-secondary">
-              E-Bikes
-            </Link>
-            <Link href={paths.tools} className="btn-secondary">
-              Free calculators
-            </Link>
-          </div>
         </div>
       </section>
 
-      <section className="container-page py-14">
-        <div className="mb-8 flex items-end justify-between gap-4">
-          <h2 className="text-2xl font-bold">Latest articles</h2>
-          <Link href={paths.blog} className="text-sm font-semibold text-brand-600 hover:underline dark:text-brand-400">
-            View all →
-          </Link>
+      <section aria-label="Silos" className="container-page py-14">
+        <h2 className="mb-6 text-2xl font-bold">Choose your ride</h2>
+        <div className="grid gap-5 md:grid-cols-3">
+          {silos.map((silo) => {
+            const count = getPostsBySilo(silo.slug).length;
+            return (
+              <Link
+                key={silo.slug}
+                href={paths.silo(silo.slug)}
+                className={`card p-6 transition-colors ${ACCENT.silo.bar} ${ACCENT.silo.hover}`}
+              >
+                <p className={`text-xl font-extrabold ${ACCENT.silo.text}`}>{silo.label}</p>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">{silo.description}</p>
+                <p className="mt-4 text-sm font-semibold">
+                  {count} article{count === 1 ? '' : 's'} →
+                </p>
+              </Link>
+            );
+          })}
         </div>
-        <PostGrid posts={posts} priorityFirst />
       </section>
 
-      <section className="container-page pb-14">
-        <h2 className="mb-6 text-2xl font-bold">Free calculators</h2>
-        <div className="grid gap-4 sm:grid-cols-3">
-          {TOOLS.map((t) => (
-            <Link key={t.slug} href={paths.tool(t.slug)} className="card p-5 transition-colors hover:border-brand-500">
-              <p className="text-2xl" aria-hidden>
-                {t.icon}
-              </p>
-              <p className="mt-2 font-bold">{t.name}</p>
-              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{t.short}</p>
+      <section className="container-page pb-14" aria-label="Latest articles">
+        <h2 className="mb-6 text-2xl font-bold">Latest articles</h2>
+        <PostGrid posts={latest} priorityFirst />
+      </section>
+
+      <section className="container-page" aria-label="Shared">
+        <div className="grid gap-4 sm:grid-cols-2">
+          {shared.map((s) => (
+            <Link key={s.slug} href={s.path} className={`card p-6 transition-colors ${ACCENT.shared.soft} ${ACCENT.shared.hover}`}>
+              <p className="text-xl font-bold">{s.label}</p>
+              <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{s.description}</p>
+              <p className="mt-3 text-sm font-semibold text-brand-600 dark:text-brand-400">Browse {s.label.toLowerCase()} →</p>
             </Link>
           ))}
         </div>
       </section>
-
-      {categories.length > 0 && (
-        <section className="container-page">
-          <h2 className="mb-6 text-2xl font-bold">Browse by category</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((c) => (
-              <Link key={c.slug} href={paths.category(c.slug)} className="card p-5 transition-colors hover:border-brand-500">
-                <p className="font-bold">{categoryLabel(c.slug)}</p>
-                <p className="text-sm text-neutral-500">
-                  {c.count} article{c.count === 1 ? '' : 's'}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
     </>
   );
 }

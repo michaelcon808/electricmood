@@ -2,6 +2,11 @@ import { cloudinaryCloudName } from './site';
 
 const UPLOAD_MARKER = '/image/upload/';
 
+/** Authors leave "CLOUDINARY_URL_HERE" (or similar) until the real image is uploaded. */
+export function isPlaceholderImage(src: string | undefined | null): boolean {
+  return !src || /^(CLOUDINARY_URL_HERE|TODO|TBD|PLACEHOLDER)$/i.test(src.trim()) || /URL_HERE/i.test(src);
+}
+
 export function isCloudinaryUrl(src: string): boolean {
   return /^https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\//.test(src);
 }
@@ -18,6 +23,7 @@ export function cld(src: string, opts: { width?: number; height?: number; crop?:
   if (opts.width || opts.height) parts.push(`c_${opts.crop ?? 'limit'}`);
   const transform = parts.join(',');
 
+  if (isPlaceholderImage(src)) return ''; // callers hide the image; never throw for a not-yet-uploaded cover
   if (isCloudinaryUrl(src)) return src.replace(UPLOAD_MARKER, `${UPLOAD_MARKER}${transform}/`);
   if (/^(https?:)?\/\//.test(src) || src.startsWith('/')) return src;
   if (!cloudinaryCloudName) {
@@ -30,6 +36,7 @@ const WIDTHS = [320, 480, 640, 768, 960, 1200, 1600, 2000];
 
 /** srcset for a responsive image, capped at 2× the rendered width. */
 export function cldSrcSet(src: string, maxWidth: number): string | undefined {
+  if (isPlaceholderImage(src)) return undefined;
   if (!isCloudinaryUrl(src) && (/^(https?:)?\/\//.test(src) || src.startsWith('/'))) return undefined;
   const widths = WIDTHS.filter((w) => w <= maxWidth * 2);
   if (!widths.length) return undefined;

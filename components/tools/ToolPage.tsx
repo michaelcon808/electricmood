@@ -1,12 +1,39 @@
+import Link from 'next/link';
 import type { Metadata } from 'next';
 import { SITE_NAME } from '@/lib/constants';
 import { faqJsonLd, pageMetadata } from '@/lib/seo';
+import { buildBreadcrumbs } from '@/config/site-structure';
+import { getPostsForTool } from '@/lib/content';
 import { absoluteUrl, paths } from '@/lib/site';
 import { getTool, type ToolInfo } from '@/lib/tools';
 import { FAQ } from '@/components/mdx/FAQ';
 import { Breadcrumbs } from '@/components/site/Breadcrumbs';
 import { JsonLd } from '@/components/site/JsonLd';
+import { PostTypeBadge } from '@/components/site/PostTypeBadge';
 import { RecommendedProducts } from '@/components/site/RecommendedProducts';
+
+/** Every published post whose frontmatter sets `tool: <this tool>` (post → tool is mirrored here). */
+function ToolPosts({ slug }: { slug: string }) {
+  const posts = getPostsForTool(slug);
+  if (!posts.length) return null;
+  return (
+    <section aria-label="Articles that use this tool" className="mt-12">
+      <h2 className="mb-4 text-2xl font-bold">Articles that use this tool</h2>
+      <ul className="space-y-3">
+        {posts.map((p) => (
+          <li key={p.key} className="flex items-start gap-3">
+            <span className="mt-0.5 shrink-0">
+              <PostTypeBadge type={p.postType} />
+            </span>
+            <Link href={p.path} className="font-semibold hover:text-brand-600 dark:hover:text-brand-400">
+              {p.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
 
 export function requireTool(slug: string): ToolInfo {
   const tool = getTool(slug);
@@ -47,12 +74,7 @@ export function ToolPage({ slug, children }: { slug: string; children: React.Rea
 
       <div className="mx-auto max-w-4xl" data-pagefind-body>
         <div data-pagefind-ignore>
-          <Breadcrumbs
-            items={[
-              { name: 'Tools', path: paths.tools },
-              { name: tool.name, path: paths.tool(tool.slug) },
-            ]}
-          />
+          <Breadcrumbs items={buildBreadcrumbs({ kind: 'shared', shared: 'tools', item: { title: tool.name, slug: tool.slug } })} />
         </div>
         <header className="mb-8">
           <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400" data-pagefind-filter="type:Tool">
@@ -101,7 +123,8 @@ export function ToolPage({ slug, children }: { slug: string; children: React.Rea
 
         <FAQ items={tool.faqs} />
         <div data-pagefind-ignore>
-          <RecommendedProducts slugs={tool.recommendedPostSlugs} />
+          <RecommendedProducts keys={tool.recommendedPosts} />
+          <ToolPosts slug={tool.slug} />
         </div>
       </div>
     </div>

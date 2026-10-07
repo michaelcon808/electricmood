@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run check-content && node scripts/generate-redirects.mjs",
+    "prebuild": "npm run check-content && npm run check:structure && node scripts/generate-redirects.mjs",
     "build": "next build",
     "postbuild": "pagefind --site out --output-subdir pagefind",
     "preview": "npx serve out",
     "lint": "tsc --noEmit",
     "check-content": "tsx scripts/check-content.ts",
-    "redirects": "node scripts/generate-redirects.mjs"
+    "redirects": "node scripts/generate-redirects.mjs",
+    "check:structure": "tsx scripts/check-structure.ts",
+    "studio": "tsx scripts/studio/server.mts"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",
@@ -25,6 +27,7 @@
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@mdx-js/mdx": "^3.1.1",
     "@tailwindcss/postcss": "^4.0.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.0.0",

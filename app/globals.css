@@ -11,6 +11,12 @@
   --color-brand-600: #059669;
   --color-brand-700: #047857;
   --color-volt: #d9f99d;
+  /* Money-post accent from the structure diagram */
+  --color-coral-50: #fbece6;
+  --color-coral-100: #f6d6ca;
+  --color-coral-500: #d95f3a;
+  --color-coral-600: #c24a26;
+  --color-coral-700: #7a2a12;
 }
 
 @layer base {

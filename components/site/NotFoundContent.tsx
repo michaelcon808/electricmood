@@ -10,8 +10,8 @@ export function NotFoundContent() {
         <Link href="/" className="btn-primary">
           Home
         </Link>
-        <Link href="/blog/" className="btn-secondary">
-          All articles
+        <Link href="/electric-scooters/" className="btn-secondary">
+          Browse electric scooters
         </Link>
       </div>
     </div>

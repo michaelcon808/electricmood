@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
-import { MIN_POSTS_TO_INDEX_TAG } from '@/lib/constants';
-import { getCategories, getPosts, getTags } from '@/lib/content';
-import { absoluteUrl, isGlobalNoindex, paths } from '@/lib/site';
+import { sections, silos } from '@/config/site-structure';
+import { getLearnPages, getPosts, getSectionPosts } from '@/lib/content';
+import { absoluteUrl, isGlobalNoindex, paths, STATIC_PATHS } from '@/lib/site';
 import { TOOLS } from '@/lib/tools';
 
 // Generated once at build time into out/sitemap.xml.
@@ -16,23 +16,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: absoluteUrl('/'), lastModified: latest, changeFrequency: 'daily', priority: 1 },
-    { url: absoluteUrl(paths.blog), lastModified: latest, changeFrequency: 'daily', priority: 0.8 },
-    ...posts.map((p) => ({
-      url: absoluteUrl(paths.post(p.slug)),
-      lastModified: p.updatedISO,
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    })),
+    ...silos.map((s) => ({ url: absoluteUrl(paths.silo(s.slug)), lastModified: latest, changeFrequency: 'weekly' as const, priority: 0.8 })),
+    // Empty "Coming soon" section hubs are noindex, so they stay out of the sitemap.
+    ...silos.flatMap((silo) =>
+      sections
+        .filter((section) => getSectionPosts(silo.slug, section.slug).length > 0)
+        .map((section) => ({
+          url: absoluteUrl(paths.section(silo.slug, section.slug)),
+          changeFrequency: 'weekly' as const,
+          priority: 0.7,
+        })),
+    ),
+    ...posts.map((p) => ({ url: absoluteUrl(p.path), lastModified: p.updatedISO, changeFrequency: 'monthly' as const, priority: 0.7 })),
     { url: absoluteUrl(paths.tools), changeFrequency: 'monthly', priority: 0.7 },
     ...TOOLS.map((t) => ({ url: absoluteUrl(paths.tool(t.slug)), changeFrequency: 'monthly' as const, priority: 0.7 })),
-    ...getCategories().map((c) => ({ url: absoluteUrl(paths.category(c.slug)), changeFrequency: 'weekly' as const, priority: 0.6 })),
-    ...getTags()
-      .filter((t) => t.count >= MIN_POSTS_TO_INDEX_TAG)
-      .map((t) => ({ url: absoluteUrl(paths.tag(t.slug)), changeFrequency: 'weekly' as const, priority: 0.4 })),
-    ...['/about/', '/contact/', '/affiliate-disclosure/', '/privacy-policy/'].map((path) => ({
-      url: absoluteUrl(path),
-      changeFrequency: 'yearly' as const,
-      priority: 0.3,
-    })),
+    { url: absoluteUrl(paths.learn), changeFrequency: 'monthly', priority: 0.6 },
+    ...getLearnPages().map((l) => ({ url: absoluteUrl(l.path), lastModified: l.updatedISO, changeFrequency: 'monthly' as const, priority: 0.6 })),
+    ...STATIC_PATHS.map((path) => ({ url: absoluteUrl(path), changeFrequency: 'yearly' as const, priority: 0.3 })),
   ];
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { buildBreadcrumbs } from '@/config/site-structure';
 import { pageMetadata } from '@/lib/seo';
 import { paths } from '@/lib/site';
 import { TOOLS } from '@/lib/tools';
@@ -15,10 +16,10 @@ export const metadata: Metadata = pageMetadata({
 export default function ToolsPage() {
   return (
     <div className="container-page py-12">
-      <Breadcrumbs items={[{ name: 'Tools', path: paths.tools }]} />
+      <Breadcrumbs items={buildBreadcrumbs({ kind: 'shared', shared: 'tools' })} />
       <PageHeader
-        eyebrow="Free tools"
-        title="Calculators"
+        eyebrow="Shared across all silos"
+        title="Tools"
         description="Quick, private calculators — everything runs in your browser and nothing is sent anywhere."
       />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

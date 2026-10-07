@@ -14,7 +14,7 @@ export default function ContactThanksPage() {
     <StaticPage title="Thanks — message sent" path="/contact/thanks/">
       <p>We’ve received your message and usually reply within a few working days.</p>
       <p>
-        <Link href="/blog/">Back to the articles →</Link>
+        <Link href="/">Back to the home page →</Link>
       </p>
     </StaticPage>
   );

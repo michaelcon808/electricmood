@@ -1,5 +1,5 @@
 // Converts /redirects.json into public/_redirects (Netlify format) so it ships inside /out.
-// redirects.json: [{ "source": "/old-url/", "destination": "/blog/new-slug/" }]  -> 301
+// redirects.json: [{ "source": "/old-url/", "destination": "/electric-scooters/guides/new-slug/" }]  -> 301
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const entries = JSON.parse(readFileSync(new URL('../redirects.json', import.meta.url), 'utf8'));
@@ -32,9 +32,6 @@ for (const [i, r] of entries.entries()) {
   seen.add(r.source);
   lines.push(`${r.source}  ${r.destination}  301`);
 }
-
-// Built-in rules. Page 1 of the blog list lives at /blog/, so its paginated twin redirects there.
-lines.push('/blog/page/1/  /blog/  301');
 
 writeFileSync(
   new URL('../public/_redirects', import.meta.url),

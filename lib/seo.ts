@@ -1,17 +1,14 @@
 import type { Metadata } from 'next';
-import { CATEGORIES, DEFAULT_AUTHOR, SITE_NAME } from './constants';
-import { absoluteUrl, isGlobalNoindex, paths, siteUrl } from './site';
-import { cld } from './cloudinary';
-import { titleCase } from './slug';
+import { getSection, getSilo } from '../config/site-structure';
+import { DEFAULT_AUTHOR, SITE_NAME } from './constants';
+import { absoluteUrl, isGlobalNoindex, siteUrl } from './site';
+import { cld, isPlaceholderImage } from './cloudinary';
 import type { Post } from './content';
-
-export const categoryLabel = (slug: string) => CATEGORIES[slug] ?? titleCase(slug);
-export const tagLabel = (slug: string) => titleCase(slug);
 
 type PageMetaInput = {
   title: string;
   description: string;
-  /** Canonical path in trailing-slash form, e.g. "/blog/". */
+  /** Canonical path in trailing-slash form, e.g. "/tools/". */
   path: string;
   /** Use the title as-is instead of the "%s | ElectricMood" template. */
   absoluteTitle?: boolean;
@@ -60,9 +57,10 @@ export function postMetadata(post: Post): Metadata {
   const base = pageMetadata({
     title: post.title,
     description: post.description,
-    path: paths.post(post.slug),
-    image: { url: post.cover, alt: post.coverAlt },
-    noindex: post.noindex,
+    path: post.path,
+    image: isPlaceholderImage(post.cover) ? undefined : { url: post.cover, alt: post.coverAlt },
+    // Respect the noindex flag; drafts (only visible in `npm run dev`) are never indexable.
+    noindex: post.noindex || post.draft,
     type: 'article',
   });
   return {
@@ -74,7 +72,7 @@ export function postMetadata(post: Post): Metadata {
       publishedTime: post.dateISO,
       modifiedTime: post.updatedISO,
       authors: [post.author],
-      section: categoryLabel(post.category),
+      section: getSection(post.section)?.label,
       tags: post.tags,
     },
   };
@@ -86,7 +84,7 @@ const publisher = { '@type': 'Organization', name: SITE_NAME, url: siteUrl };
 const authorLd = (name: string) => ({ '@type': name === DEFAULT_AUTHOR ? 'Organization' : 'Person', name });
 
 export function blogPostingJsonLd(post: Post) {
-  const url = absoluteUrl(paths.post(post.slug));
+  const url = absoluteUrl(post.path);
   return {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -94,19 +92,19 @@ export function blogPostingJsonLd(post: Post) {
     description: post.description,
     url,
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-    image: [cld(post.cover, { width: 1200 })],
+    image: isPlaceholderImage(post.cover) ? undefined : [cld(post.cover, { width: 1200 })],
     datePublished: post.dateISO,
     dateModified: post.updatedISO,
     author: authorLd(post.author),
     publisher,
-    articleSection: categoryLabel(post.category),
+    articleSection: `${getSilo(post.silo)?.label}: ${getSection(post.section)?.label}`,
     keywords: post.tags.join(', ') || undefined,
   };
 }
 
-/** Review → Product, only for reviews with a real rating. */
+/** Review → Product, only for money posts that carry a real rating. */
 export function reviewJsonLd(post: Post) {
-  if (post.postType !== 'review' || post.rating === undefined) return null;
+  if (post.postType !== 'money' || post.rating === undefined) return null;
   const list = (items: string[]) =>
     items.length
       ? { '@type': 'ItemList', itemListElement: items.map((name, i) => ({ '@type': 'ListItem', position: i + 1, name })) }
@@ -115,7 +113,7 @@ export function reviewJsonLd(post: Post) {
     '@context': 'https://schema.org',
     '@type': 'Review',
     name: post.title,
-    url: absoluteUrl(paths.post(post.slug)),
+    url: absoluteUrl(post.path),
     datePublished: post.dateISO,
     author: authorLd(post.author),
     publisher,
@@ -126,7 +124,7 @@ export function reviewJsonLd(post: Post) {
     itemReviewed: {
       '@type': 'Product',
       name: post.productName || post.title,
-      image: cld(post.cover, { width: 1200 }),
+      image: isPlaceholderImage(post.cover) ? undefined : cld(post.cover, { width: 1200 }),
     },
   };
 }

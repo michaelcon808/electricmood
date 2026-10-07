@@ -1,83 +1,110 @@
-// Build-time content loader. Reads /content/posts/*.mdx, validates frontmatter with zod
-// (a bad file fails the build), and filters out drafts and future-dated posts.
+// Build-time content loader. Reads /content/posts/*.mdx and /content/learn/*.mdx, validates frontmatter
+// with zod (a bad file fails the build), and filters out drafts and future-dated items.
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { PER_PAGE } from './constants';
-import { formatIssues, frontmatterSchema, type Frontmatter } from './schema';
-import { extractToc, hasAffiliateContent, readingTimeMinutes, type TocItem } from './markdown';
+import { sections, silos } from '../config/site-structure';
+import { formatIssues, frontmatterSchema, learnSchema, type Frontmatter, type LearnFrontmatter } from './schema';
+import { extractFaqFromBody, extractToc, hasAffiliateContent, readingTimeMinutes, type TocItem } from './markdown';
+import { paths } from './site';
 
 export const POSTS_DIR = path.join(process.cwd(), 'content', 'posts');
+export const LEARN_DIR = path.join(process.cwd(), 'content', 'learn');
 
 export type Post = Frontmatter & {
   content: string;
   file: string;
+  /** The post's unique identity: its slug (unique across the whole site). */
+  key: string;
+  /** Canonical URL path: /{slug}/ at the site root. */
+  path: string;
   readingTime: number;
   toc: TocItem[];
+  /** FAQ parsed from the body (### questions under "Frequently asked questions"); used for FAQPage JSON-LD. */
+  bodyFaqs: { question: string; answer: string }[];
   hasAffiliateLinks: boolean;
-  /** ISO strings for serialization into client code / JSON-LD. */
   dateISO: string;
   updatedISO: string;
 };
 
 export type PostSummary = Omit<Post, 'content' | 'toc'>;
 
+export type LearnPage = LearnFrontmatter & {
+  content: string;
+  file: string;
+  path: string;
+  readingTime: number;
+  toc: TocItem[];
+  dateISO: string;
+  updatedISO: string;
+};
+
+function readDir(dir: string) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => /\.mdx?$/.test(f))
+    .map((file) => ({ file, ...matter(fs.readFileSync(path.join(dir, file), 'utf8')) }));
+}
+
+/** Turns validated frontmatter + MDX body into a Post (also used by the studio preview). */
+export function buildPost(fm: Frontmatter, content: string, file: string): Post {
+  return {
+    ...fm,
+    content,
+    file,
+    key: fm.slug,
+    path: paths.post(fm.slug),
+    readingTime: readingTimeMinutes(content),
+    toc: extractToc(content),
+    bodyFaqs: extractFaqFromBody(content),
+    hasAffiliateLinks: fm.affiliateLinks.length > 0 || hasAffiliateContent(content),
+    dateISO: fm.date.toISOString(),
+    updatedISO: (fm.updated ?? fm.date).toISOString(),
+  };
+}
+
 /** Reads and validates every post file, including drafts. Throws on any invalid file. */
 export function loadAllPostFiles(): Post[] {
-  if (!fs.existsSync(POSTS_DIR)) return [];
-  const files = fs.readdirSync(POSTS_DIR).filter((f) => /\.mdx?$/.test(f));
   const errors: string[] = [];
   const posts: Post[] = [];
 
-  for (const file of files) {
-    const raw = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
-    const { data, content } = matter(raw);
+  for (const { file, data, content } of readDir(POSTS_DIR)) {
     const parsed = frontmatterSchema.safeParse(data);
     if (!parsed.success) {
       errors.push(`content/posts/${file}:\n${formatIssues(parsed.error)}`);
       continue;
     }
-    const fm = parsed.data;
-    posts.push({
-      ...fm,
-      content,
-      file,
-      readingTime: readingTimeMinutes(content),
-      toc: extractToc(content),
-      hasAffiliateLinks: fm.affiliateLinks.length > 0 || hasAffiliateContent(content),
-      dateISO: fm.date.toISOString(),
-      updatedISO: (fm.updated ?? fm.date).toISOString(),
-    });
+    posts.push(buildPost(parsed.data, content, file));
   }
 
-  if (errors.length) {
-    throw new Error(`Invalid post frontmatter:\n\n${errors.join('\n\n')}\n`);
-  }
+  if (errors.length) throw new Error(`Invalid post frontmatter:\n\n${errors.join('\n\n')}\n`);
 
-  const slugs = new Map<string, string>();
+  // URLs are /{slug}/, so slugs must be unique across the whole site.
+  const seen = new Map<string, string>();
   for (const p of posts) {
-    const other = slugs.get(p.slug);
-    if (other) throw new Error(`Duplicate slug "${p.slug}" in content/posts/${other} and content/posts/${p.file}`);
-    slugs.set(p.slug, p.file);
+    const other = seen.get(p.key);
+    if (other) throw new Error(`Duplicate slug "${p.key}" in content/posts/${other} and content/posts/${p.file} (slugs must be unique across the site)`);
+    seen.set(p.key, p.file);
   }
   return posts;
 }
 
 /** Published = not a draft and dated today or earlier (at build time). */
-export function isPublished(p: Pick<Post, 'draft' | 'date'>, now = new Date()): boolean {
+export function isPublished(p: { draft: boolean; date: Date }, now = new Date()): boolean {
   return !p.draft && p.date.getTime() <= now.getTime();
 }
 
-let cache: Post[] | null = null;
+let postCache: Post[] | null = null;
 
 /** Every published post, newest first. Drafts and future posts never leave this module. */
 export function getPosts(): Post[] {
-  if (!cache || process.env.NODE_ENV === 'development') {
-    cache = loadAllPostFiles()
+  if (!postCache || process.env.NODE_ENV === 'development') {
+    postCache = loadAllPostFiles()
       .filter((p) => isPublished(p))
       .sort((a, b) => b.date.getTime() - a.date.getTime());
   }
-  return cache;
+  return postCache;
 }
 
 export function summarize(p: Post): PostSummary {
@@ -86,50 +113,94 @@ export function summarize(p: Post): PostSummary {
   return rest;
 }
 
-export function getPostBySlug(slug: string): Post | undefined {
-  return getPosts().find((p) => p.slug === slug);
+export const getPostByKey = (key: string) => getPosts().find((p) => p.key === key);
+export const getPost = (slug: string) => getPostByKey(slug);
+
+/**
+ * The post for its own page. In `npm run dev` drafts and future-dated posts are also returned, so you can
+ * preview them at their URL. In a production build only published posts exist, so a draft never ships.
+ */
+export function getPostForPage(slug: string): Post | undefined {
+  const published = getPostByKey(slug);
+  if (published || process.env.NODE_ENV !== 'development') return published;
+  return loadAllPostFiles().find((p) => p.slug === slug);
 }
 
-export function paginate<T>(items: T[], page: number, perPage = PER_PAGE) {
-  const pages = Math.max(1, Math.ceil(items.length / perPage));
-  return { items: items.slice((page - 1) * perPage, page * perPage), page, pages };
+/** Slugs to generate: published posts, plus drafts/future posts in dev only. */
+export function getPostSlugsForPages(): string[] {
+  const slugs = new Set(getPosts().map((p) => p.slug));
+  if (process.env.NODE_ENV === 'development') for (const p of loadAllPostFiles()) slugs.add(p.slug);
+  return [...slugs];
+}
+export const getPostsBySilo = (silo: string) => getPosts().filter((p) => p.silo === silo);
+export const getPostsForTool = (tool: string) => getPosts().filter((p) => p.tool === tool);
+
+const TYPE_ORDER = { money: 0, comparison: 1, info: 2 } as const;
+
+/** EVERY published post in a section: money first, then comparison, then info, newest first within each. */
+export function getSectionPosts(silo: string, section: string): Post[] {
+  return getPosts()
+    .filter((p) => p.silo === silo && p.section === section)
+    .sort((a, b) => TYPE_ORDER[a.postType] - TYPE_ORDER[b.postType] || b.date.getTime() - a.date.getTime());
 }
 
-export function getPostsByCategory(category: string) {
-  return getPosts().filter((p) => p.category === category);
+/** Featured posts for hubs and menus: money posts first, then newest. */
+export function getFeaturedPosts(silo: string, limit = 3, section?: string): Post[] {
+  return getPosts()
+    .filter((p) => p.silo === silo && (!section || p.section === section))
+    .sort((a, b) => Number(b.postType === 'money') - Number(a.postType === 'money') || b.date.getTime() - a.date.getTime())
+    .slice(0, limit);
 }
 
-export function getPostsByTag(tag: string) {
-  return getPosts().filter((p) => p.tags.includes(tag));
-}
+/* ---------------- Learn ---------------- */
 
-function countBy(values: string[]) {
-  const counts = new Map<string, number>();
-  for (const v of values) counts.set(v, (counts.get(v) ?? 0) + 1);
-  return [...counts.entries()].map(([slug, count]) => ({ slug, count })).sort((a, b) => b.count - a.count);
-}
-
-export const getCategories = () => countBy(getPosts().map((p) => p.category));
-export const getTags = () => countBy(getPosts().flatMap((p) => p.tags));
-
-/** 3 related posts: same category scores 2, each shared tag 1, same type 0.5; topped up with the latest. */
-export function getRelatedPosts(post: Post, limit = 3): Post[] {
-  const others = getPosts().filter((p) => p.slug !== post.slug);
-  const scored = others
-    .map((p) => ({
-      p,
-      score:
-        (p.category === post.category ? 2 : 0) +
-        p.tags.filter((t) => post.tags.includes(t)).length +
-        (p.postType === post.postType ? 0.5 : 0),
-    }))
-    .filter((s) => s.score >= 1)
-    .sort((a, b) => b.score - a.score || b.p.date.getTime() - a.p.date.getTime())
-    .slice(0, limit)
-    .map((s) => s.p);
-  for (const p of others) {
-    if (scored.length >= limit) break;
-    if (!scored.includes(p)) scored.push(p);
+export function loadAllLearnFiles(): LearnPage[] {
+  const errors: string[] = [];
+  const pages: LearnPage[] = [];
+  for (const { file, data, content } of readDir(LEARN_DIR)) {
+    const parsed = learnSchema.safeParse(data);
+    if (!parsed.success) {
+      errors.push(`content/learn/${file}:\n${formatIssues(parsed.error)}`);
+      continue;
+    }
+    const fm = parsed.data;
+    pages.push({
+      ...fm,
+      content,
+      file,
+      path: paths.learnPage(fm.slug),
+      readingTime: readingTimeMinutes(content),
+      toc: extractToc(content),
+      dateISO: fm.date.toISOString(),
+      updatedISO: (fm.updated ?? fm.date).toISOString(),
+    });
   }
-  return scored;
+  if (errors.length) throw new Error(`Invalid learn frontmatter:\n\n${errors.join('\n\n')}\n`);
+  const slugs = new Set<string>();
+  for (const p of pages) {
+    if (slugs.has(p.slug)) throw new Error(`Duplicate learn slug "${p.slug}" (content/learn/${p.file})`);
+    slugs.add(p.slug);
+  }
+  return pages;
+}
+
+export function getLearnPages(): LearnPage[] {
+  return loadAllLearnFiles()
+    .filter((p) => isPublished(p))
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
+}
+
+export const getLearnPage = (slug: string) => getLearnPages().find((p) => p.slug === slug);
+
+/** Every URL the site generates (used by the build checks to validate breadcrumbs). */
+export function getAllGeneratedPaths(toolSlugs: string[], staticPaths: string[]): Set<string> {
+  const urls = new Set<string>([paths.home, paths.tools, paths.learn, paths.search, ...staticPaths]);
+  for (const silo of silos) {
+    urls.add(paths.silo(silo.slug));
+    for (const section of sections) urls.add(paths.section(silo.slug, section.slug));
+  }
+  for (const p of getPosts()) urls.add(p.path);
+  for (const t of toolSlugs) urls.add(paths.tool(t));
+  for (const l of getLearnPages()) urls.add(l.path);
+  return urls;
 }

@@ -20,3 +20,6 @@ public/_redirects
 # misc
 .DS_Store
 npm-debug.log*
+
+# studio scratch files (preview state)
+.studio/

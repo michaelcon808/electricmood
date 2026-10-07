@@ -1,8 +1,8 @@
 import { SITE_NAME, SITE_TAGLINE } from '@/lib/constants';
 import { getPosts } from '@/lib/content';
-import { cld } from '@/lib/cloudinary';
-import { categoryLabel } from '@/lib/seo';
-import { absoluteUrl, paths } from '@/lib/site';
+import { cld, isPlaceholderImage } from '@/lib/cloudinary';
+import { getSection, getSilo } from '@/config/site-structure';
+import { absoluteUrl } from '@/lib/site';
 
 // Generated once at build time into out/feed.xml.
 export const dynamic = 'force-static';
@@ -18,15 +18,16 @@ export function GET() {
 
   const items = posts
     .map((p) => {
-      const url = absoluteUrl(paths.post(p.slug));
+      const url = absoluteUrl(p.path);
       return `    <item>
       <title>${esc(p.title)}</title>
       <link>${url}</link>
       <guid isPermaLink="true">${url}</guid>
       <description>${esc(p.description)}</description>
-      <category>${esc(categoryLabel(p.category))}</category>
+      <category>${esc(getSilo(p.silo)?.label ?? '')}</category>
+      <category>${esc(getSection(p.section)?.label ?? '')}</category>
       <pubDate>${p.date.toUTCString()}</pubDate>
-      <enclosure url="${esc(cld(p.cover, { width: 1200 }))}" type="image/jpeg" length="0" />
+      ${isPlaceholderImage(p.cover) ? '' : `<enclosure url="${esc(cld(p.cover, { width: 1200 }))}" type="image/jpeg" length="0" />`}
     </item>`;
     })
     .join('\n');

@@ -15,15 +15,19 @@ export function absoluteUrl(path = '/'): string {
   return `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
 }
 
-// Canonical paths (trailingSlash: true) — use these everywhere instead of hand-written strings.
+// Canonical paths (trailingSlash: true). Use these everywhere instead of hand-written strings.
 export const paths = {
   home: '/',
-  blog: '/blog/',
-  blogPage: (n: number) => (n <= 1 ? '/blog/' : `/blog/page/${n}/`),
-  post: (slug: string) => `/blog/${slug}/`,
-  category: (slug: string) => `/category/${slug}/`,
-  tag: (slug: string) => `/tag/${slug}/`,
+  silo: (silo: string) => `/${silo}/`,
+  section: (silo: string, section: string) => `/${silo}/${section}/`,
+  /** Posts live at the site root: electricmood.com/{slug}/ (no silo/section folders in the URL). */
+  post: (slug: string) => `/${slug}/`,
   tools: '/tools/',
   tool: (slug: string) => `/tools/${slug}/`,
+  learn: '/learn/',
+  learnPage: (slug: string) => `/learn/${slug}/`,
   search: '/search/',
 };
+
+/** Static pages with fixed URLs. */
+export const STATIC_PATHS = ['/about/', '/contact/', '/affiliate-disclosure/', '/privacy-policy/'];

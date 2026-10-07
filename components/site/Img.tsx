@@ -1,4 +1,4 @@
-import { cld, cldSrcSet } from '@/lib/cloudinary';
+import { cld, cldSrcSet, isPlaceholderImage } from '@/lib/cloudinary';
 
 export type ImgProps = {
   /** Full res.cloudinary.com URL or a Cloudinary public ID. */
@@ -18,6 +18,16 @@ export type ImgProps = {
 
 /** Static, Cloudinary-optimised <img>: f_auto,q_auto, responsive srcset, lazy by default. Zero client JS. */
 export function Img({ src, alt, width, height, sizes, priority = false, className, caption }: ImgProps) {
+  // Placeholder cover (e.g. "CLOUDINARY_URL_HERE"): show a neutral gradient, never a broken image.
+  if (isPlaceholderImage(src)) {
+    return (
+      <div
+        aria-hidden
+        style={{ aspectRatio: `${width} / ${height}` }}
+        className={`${className ?? 'w-full rounded-lg'} bg-gradient-to-br from-brand-500 to-emerald-900`}
+      />
+    );
+  }
   const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img

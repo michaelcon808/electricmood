@@ -1,0 +1,839 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ElectricMood Studio</title>
+<style>
+  :root {
+    --bg: #f6f7f8; --panel: #fff; --text: #17191c; --muted: #6b7280; --border: #dfe3e8;
+    --brand: #059669; --brand-dark: #047857; --danger: #b42318; --danger-bg: #fef3f2;
+    --warn: #93370d; --warn-bg: #fffaeb; --ok-bg: #ecfdf3; --ok: #05603a; --focus: #10b981;
+    --violet: #6d28d9; --teal: #0f766e; --coral: #c24a26;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d0f12; --panel: #16191d; --text: #e7e9ec; --muted: #9aa3ae; --border: #2a2f36;
+      --danger: #fda29b; --danger-bg: #3a1714; --warn: #fec84b; --warn-bg: #3a2a0c; --ok-bg: #0f2e22; --ok: #75e0a7;
+      --violet: #c4b5fd; --teal: #5eead4; --coral: #f6a385;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; font: 14px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .top { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--panel); border-bottom: 1px solid var(--border); height: 52px; }
+  .top h1 { font-size: 16px; margin: 0; }
+  .muted { color: var(--muted); }
+  .spacer { flex: 1; }
+
+  .layout { display: grid; grid-template-columns: 260px minmax(460px, 1fr) minmax(360px, 1fr); height: calc(100% - 52px - 64px); }
+  .layout.no-preview { grid-template-columns: 260px 1fr; }
+  .layout.no-preview .preview { display: none; }
+  @media (max-width: 1100px) { .layout, .layout.no-preview { grid-template-columns: 220px 1fr; } .preview { display: none; } }
+
+  .sidebar { border-right: 1px solid var(--border); background: var(--panel); overflow-y: auto; padding: 12px; }
+  .sidebar input { width: 100%; }
+  .group { margin-top: 14px; }
+  .group-title { font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--violet); font-weight: 700; }
+  .subgroup-title { font-size: 12px; color: var(--teal); font-weight: 600; margin: 8px 0 2px; }
+  .post-item { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+  .post-item:hover { background: var(--bg); }
+  .post-item.active { background: var(--ok-bg); }
+  .post-item .t { display: block; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 0 6px; border-radius: 999px; margin-right: 4px; border: 1px solid var(--border); color: var(--muted); }
+  .tag.money { color: var(--coral); border-color: currentColor; }
+  .tag.draft { color: var(--warn); border-color: currentColor; }
+  .tag.bad { color: var(--danger); border-color: currentColor; }
+
+  .editor { overflow-y: auto; padding: 16px 20px 40px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 12px; color: var(--muted); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .field { margin-bottom: 12px; }
+  .field > label, .field > .label { display: block; font-weight: 600; margin-bottom: 4px; }
+  .req::after { content: " *"; color: var(--danger); }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  input[type=text], input[type=url], input[type=date], input[type=number], select, textarea {
+    width: 100%; padding: 7px 9px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+  }
+  textarea { resize: vertical; }
+  #body { min-height: 420px; font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; tab-size: 2; }
+  .field.has-error input, .field.has-error select, .field.has-error textarea, .field.has-error .checks { border-color: var(--danger); }
+  .err { color: var(--danger); font-size: 12px; margin-top: 4px; }
+  .err:empty { display: none; }
+  .check { display: flex; gap: 6px; align-items: center; font-weight: normal; }
+  .checks { border: 1px solid var(--border); border-radius: 8px; padding: 6px 8px; max-height: 160px; overflow-y: auto; }
+  .checks .empty { color: var(--muted); font-size: 12px; }
+  .counter.bad { color: var(--danger); font-weight: 700; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .toolbar button, .toolbar select { padding: 3px 8px; border: 1px solid var(--border); background: var(--panel); border-radius: 6px; cursor: pointer; font-size: 12px; width: auto; }
+  .toolbar .sep { width: 1px; background: var(--border); margin: 0 4px; }
+
+  .drop { border: 2px dashed var(--border); border-radius: 10px; padding: 14px; text-align: center; color: var(--muted); cursor: pointer; }
+  .drop.over { border-color: var(--focus); background: var(--ok-bg); }
+  .drop.disabled { cursor: not-allowed; opacity: .7; }
+  .thumb { max-width: 220px; border-radius: 8px; margin-top: 8px; display: block; }
+
+  .rows .row { display: grid; gap: 6px; margin-bottom: 6px; grid-template-columns: 1fr 1fr 1fr auto; }
+  .rows.faq .row { grid-template-columns: 1fr 2fr auto; }
+  .btn { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--panel); cursor: pointer; font-weight: 600; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn.primary:hover { background: var(--brand-dark); }
+  .btn.small { padding: 3px 9px; font-size: 12px; }
+  .btn:disabled { opacity: .55; cursor: wait; }
+
+  details > summary { cursor: pointer; font-weight: 700; }
+
+  .preview { display: flex; flex-direction: column; border-left: 1px solid var(--border); background: var(--panel); }
+  .preview-bar { display: flex; gap: 10px; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .preview iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+
+  .actions { position: fixed; left: 0; right: 0; bottom: 0; height: 64px; display: flex; gap: 10px; align-items: center; padding: 0 16px; background: var(--panel); border-top: 1px solid var(--border); }
+  #summary { flex: 1; overflow-y: auto; max-height: 60px; font-size: 12px; }
+  #summary .e { color: var(--danger); }
+  #summary .w { color: var(--warn); }
+
+  .banner { border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
+  .banner.ok { background: var(--ok-bg); color: var(--ok); }
+  .banner.error { background: var(--danger-bg); color: var(--danger); }
+  .banner.warn { background: var(--warn-bg); color: var(--warn); }
+  .banner a { color: inherit; font-weight: 700; }
+  .banner code { font-size: 12px; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>⚡ ElectricMood Studio</h1>
+  <span class="muted">Local editor · writes to content/posts · never commits</span>
+  <div class="spacer"></div>
+  <label class="check"><input type="checkbox" id="togglePreview" checked /> Live preview</label>
+  <button class="btn" id="newBtn" type="button">+ New post</button>
+</header>
+
+<div class="layout" id="layout">
+  <aside class="sidebar" aria-label="Posts">
+    <input type="text" id="filter" placeholder="Filter posts…" aria-label="Filter posts" />
+    <div id="postList"></div>
+  </aside>
+
+  <main class="editor">
+    <div id="banner"></div>
+    <form id="form" autocomplete="off" novalidate onsubmit="return false">
+      <div class="card">
+        <h2 id="formTitle">New post</h2>
+        <div class="field" data-field="title">
+          <label for="title" class="req">Title</label>
+          <input type="text" id="title" name="title" maxlength="120" />
+          <div class="err"></div>
+        </div>
+        <div class="grid2">
+          <div class="field" data-field="slug">
+            <label for="slug" class="req">Slug</label>
+            <input type="text" id="slug" name="slug" />
+            <div class="hint" id="urlHint">URL: —</div>
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="author">
+            <label for="author">Author</label>
+            <input type="text" id="author" name="author" />
+            <div class="err"></div>
+          </div>
+        </div>
+        <div class="field" data-field="description">
+          <label for="description" class="req">Description <span class="counter muted" id="descCount">0/160</span></label>
+          <textarea id="description" name="description" rows="2"></textarea>
+          <div class="hint">120–160 characters. Used on cards and as the meta description.</div>
+          <div class="err"></div>
+        </div>
+        <div class="grid3">
+          <div class="field" data-field="date">
+            <label for="date" class="req">Publish date</label>
+            <input type="date" id="date" name="date" />
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="updated">
+            <label for="updated">Updated (optional)</label>
+            <input type="date" id="updated" name="updated" />
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="draft">
+            <span class="label">Status</span>
+            <label class="check"><input type="checkbox" id="draft" name="draft" /> Draft (not published)</label>
+            <div class="hint">Untick to publish on the next deploy.</div>
+            <div class="err"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Placement and links</h2>
+        <div class="grid3">
+          <div class="field" data-field="silo">
+            <label for="silo" class="req">Silo</label>
+            <select id="silo" name="silo"></select>
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="section">
+            <label for="section" class="req">Section</label>
+            <select id="section" name="section"></select>
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="postType">
+            <label for="postType" class="req">Post type</label>
+            <select id="postType" name="postType"></select>
+            <div class="err"></div>
+          </div>
+        </div>
+        <div class="field" data-field="moneyPost" id="moneyField">
+          <label for="moneyPost" class="req">Money post this info post points to (by slug)</label>
+          <select id="moneyPost" name="moneyPost"></select>
+          <div class="hint">Shown as “Ready to buy? See …” after the intro.</div>
+          <div class="err"></div>
+        </div>
+        <div class="grid2">
+          <div class="field" data-field="siblings">
+            <span class="label">Siblings (same section)</span>
+            <div class="checks" id="siblings"></div>
+            <div class="hint">Shown first in “More in {Section}”.</div>
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="parallel">
+            <span class="label">Parallel (same topic, other silo)</span>
+            <div class="checks" id="parallel"></div>
+            <div class="hint">Linked both ways automatically.</div>
+            <div class="err"></div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field" data-field="tool">
+            <label for="tool">Related tool</label>
+            <select id="tool" name="tool"></select>
+            <div class="err"></div>
+          </div>
+          <div class="field" data-field="tags">
+            <label for="tags">Tags</label>
+            <input type="text" id="tags" name="tags" placeholder="theft-protection, locks" />
+            <div class="hint">Comma separated, lowercase-with-hyphens.</div>
+            <div class="err"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Cover image</h2>
+        <div class="field" data-field="cover">
+          <label for="cover" class="req">Cover image URL</label>
+          <input type="url" id="cover" name="cover" placeholder="https://res.cloudinary.com/…" />
+          <div class="drop" id="coverDrop" tabindex="0" role="button">Drop an image here or click to upload to Cloudinary</div>
+          <img class="thumb hidden" id="coverThumb" alt="" />
+          <div class="err"></div>
+        </div>
+        <div class="field" data-field="coverAlt">
+          <label for="coverAlt" class="req">Cover alt text</label>
+          <input type="text" id="coverAlt" name="coverAlt" placeholder="Describe the image for people who can’t see it" />
+          <div class="err"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Article</h2>
+        <div class="field" data-field="body">
+          <div class="toolbar" id="toolbar" aria-label="Formatting"></div>
+          <textarea id="body" name="body" spellcheck="true" placeholder="## First section&#10;&#10;Write in Markdown…"></textarea>
+          <div class="hint">Markdown + components. <kbd>Ctrl/⌘ + S</kbd> saves. Links ending in <code>#aff</code> become affiliate links.</div>
+          <div class="err"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <details id="extras">
+          <summary>Extras: affiliate links, review data, FAQ, SEO</summary>
+          <div style="margin-top:12px">
+            <div class="field" data-field="affiliateLinks">
+              <span class="label">Affiliate links</span>
+              <div class="rows" id="affRows"></div>
+              <button class="btn small" type="button" id="addAff">+ Add link</button>
+              <div class="err"></div>
+            </div>
+            <div class="field" data-field="primaryKeyword">
+              <label for="primaryKeyword">Primary keyword (SEO note, not shown on the page)</label>
+              <input type="text" id="primaryKeyword" name="primaryKeyword" />
+              <div class="err"></div>
+            </div>
+            <div class="grid3">
+              <div class="field" data-field="bestFor">
+                <label for="bestFor">Best for</label>
+                <input type="text" id="bestFor" name="bestFor" placeholder="Daily commuters" />
+                <div class="err"></div>
+              </div>
+              <div class="field" data-field="productName">
+                <label for="productName">Product name</label>
+                <input type="text" id="productName" name="productName" />
+                <div class="err"></div>
+              </div>
+              <div class="field" data-field="rating" id="ratingField">
+                <label for="rating">Rating (0–5, money posts)</label>
+                <input type="number" id="rating" name="rating" min="0" max="5" step="0.1" />
+                <div class="err"></div>
+              </div>
+            </div>
+            <div class="field" data-field="testedHandsOn">
+              <label class="check"><input type="checkbox" id="testedHandsOn" name="testedHandsOn" /> We tested this hands-on</label>
+            </div>
+            <div class="grid2">
+              <div class="field" data-field="pros">
+                <label for="pros">Pros (one per line)</label>
+                <textarea id="pros" name="pros" rows="4"></textarea>
+                <div class="err"></div>
+              </div>
+              <div class="field" data-field="cons">
+                <label for="cons">Cons (one per line)</label>
+                <textarea id="cons" name="cons" rows="4"></textarea>
+                <div class="err"></div>
+              </div>
+            </div>
+            <div class="field" data-field="faqs">
+              <span class="label">FAQ (also adds FAQPage structured data)</span>
+              <div class="rows faq" id="faqRows"></div>
+              <button class="btn small" type="button" id="addFaq">+ Add question</button>
+              <div class="err"></div>
+            </div>
+            <div class="field" data-field="noindex">
+              <label class="check"><input type="checkbox" id="noindex" name="noindex" /> noindex this post (keeps it out of search engines, sitemap and RSS)</label>
+            </div>
+          </div>
+        </details>
+      </div>
+    </form>
+  </main>
+
+  <section class="preview" aria-label="Live preview">
+    <div class="preview-bar">
+      <strong>Live preview</strong>
+      <span class="muted" id="previewStatus">—</span>
+      <span class="spacer"></span>
+      <a id="openPreview" target="_blank" rel="noopener">Open in tab ↗</a>
+    </div>
+    <iframe id="previewFrame" title="Post preview"></iframe>
+  </section>
+</div>
+
+<footer class="actions">
+  <div id="summary" aria-live="polite"></div>
+  <button class="btn" type="button" id="checkBtn">Check</button>
+  <button class="btn primary" type="button" id="saveBtn">Add post</button>
+</footer>
+
+<script>
+(() => {
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const form = $('#form');
+  const f = (name) => form.elements[name];
+
+  /** Small DOM builder that never uses innerHTML for user content. */
+  function h(tag, attrs = {}, ...children) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v === undefined || v === null || v === false) continue;
+      if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else if (k === 'class') el.className = v;
+      else el.setAttribute(k, v === true ? '' : v);
+    }
+    for (const c of children.flat()) if (c !== null && c !== undefined && c !== false) el.append(c.nodeType ? c : String(c));
+    return el;
+  }
+
+  let META = null;
+  let POSTS = [];
+  let current = { file: null };
+  let snapshot = null; // null until the first post is loaded, so startup never asks to discard
+  let slugTouched = false;
+
+  async function api(path, body) {
+    const opts = body === undefined ? {} : {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Studio': '1' },
+      body: JSON.stringify(body),
+    };
+    const res = await fetch(path, opts);
+    const data = await res.json().catch(() => ({ error: 'Bad response from studio server' }));
+    return { status: res.status, data };
+  }
+
+  const slugify = (s) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
+    .replace(/&/g, ' and ').replace(/\b(19|20)\d{2}\b/g, ' ')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 90).replace(/-+$/, '');
+  const lines = (s) => s.split('\n').map((x) => x.trim()).filter(Boolean);
+  const keyOf = (p) => p.slug; // posts are identified by their slug (unique site-wide); the URL is /{slug}/
+  const siloLabel = (slug) => META.silos.find((s) => s.slug === slug)?.label ?? slug;
+  const sectionLabel = (slug) => META.sections.find((s) => s.slug === slug)?.label ?? slug;
+
+  /* ---------------- options ---------------- */
+
+  function fillSelect(sel, options, { empty } = {}) {
+    const keep = sel.value;
+    sel.replaceChildren(...(empty ? [h('option', { value: '' }, empty)] : []), ...options);
+    if ([...sel.options].some((o) => o.value === keep)) sel.value = keep;
+  }
+
+  function renderStaticOptions() {
+    fillSelect(f('silo'), META.silos.map((s) => h('option', { value: s.slug }, s.label)));
+    fillSelect(f('section'), META.sections.map((s) => h('option', { value: s.slug }, s.label)));
+    fillSelect(f('postType'), META.postTypes.map((t) => h('option', { value: t }, t[0].toUpperCase() + t.slice(1))));
+    fillSelect(f('tool'), META.tools.map((t) => h('option', { value: t.slug }, t.name)), { empty: '— none —' });
+  }
+
+  function checkedValues(box) { return $$('input:checked', box).map((i) => i.value); }
+
+  function renderChecks(box, items, selected) {
+    box.replaceChildren(...(items.length
+      ? items.map((it) => h('label', { class: 'check' },
+          h('input', { type: 'checkbox', value: it.value, checked: selected.includes(it.value) }), it.label))
+      : [h('div', { class: 'empty' }, 'No posts to choose from yet.')]));
+  }
+
+  /** Re-render the link pickers for the current silo/section/type (keeps selections). */
+  function renderLinkOptions(selected = {}) {
+    const silo = f('silo').value, section = f('section').value;
+    const valid = POSTS.filter((p) => !p.invalid && p.file !== current.file);
+    const sib = selected.siblings ?? checkedValues($('#siblings'));
+    const par = selected.parallel ?? checkedValues($('#parallel'));
+    const money = selected.moneyPost ?? f('moneyPost').value;
+
+    renderChecks($('#siblings'), valid.filter((p) => p.silo === silo && p.section === section)
+      .map((p) => ({ value: p.slug, label: `${p.title}${p.draft ? ' (draft)' : ''}` })), sib);
+    renderChecks($('#parallel'), valid.filter((p) => p.silo !== silo)
+      .map((p) => ({ value: keyOf(p), label: `${siloLabel(p.silo)} › ${p.title}${p.draft ? ' (draft)' : ''}` })), par);
+
+    const groups = META.silos.map((s) => {
+      const items = valid.filter((p) => p.postType === 'money' && p.silo === s.slug);
+      return items.length ? h('optgroup', { label: s.label },
+        ...items.map((p) => h('option', { value: keyOf(p) }, `${sectionLabel(p.section)} › ${p.title}${p.draft ? ' (draft)' : ''}`))) : null;
+    }).filter(Boolean);
+    $('#moneyPost').replaceChildren(h('option', { value: '' }, '— choose a money post —'), ...groups);
+    $('#moneyPost').value = money;
+
+    const type = f('postType').value;
+    $('#moneyField').classList.toggle('hidden', type !== 'info');
+    $('#ratingField').classList.toggle('hidden', type !== 'money');
+    $('#urlHint').textContent = `URL: /${f('slug').value || '…'}/  (posts live at the site root)`;
+  }
+
+  /* ---------------- repeatable rows ---------------- */
+
+  function affRow(v = {}) {
+    const row = h('div', { class: 'row' },
+      h('input', { type: 'text', placeholder: 'Button label (Check price)', 'data-k': 'label', value: v.label ?? '' }),
+      h('input', { type: 'url', placeholder: 'https://…', 'data-k': 'url', value: v.url ?? '' }),
+      h('input', { type: 'text', placeholder: 'Merchant (Amazon)', 'data-k': 'merchant', value: v.merchant ?? '' }),
+      h('button', { type: 'button', class: 'btn small', 'aria-label': 'Remove link', onclick: () => { row.remove(); changed(); } }, '✕'));
+    $('#affRows').append(row);
+  }
+  function faqRow(v = {}) {
+    const row = h('div', { class: 'row' },
+      h('input', { type: 'text', placeholder: 'Question', 'data-k': 'question', value: v.question ?? '' }),
+      h('textarea', { rows: '2', placeholder: 'Answer', 'data-k': 'answer' }, v.answer ?? ''),
+      h('button', { type: 'button', class: 'btn small', 'aria-label': 'Remove question', onclick: () => { row.remove(); changed(); } }, '✕'));
+    $('#faqRows').append(row);
+  }
+  function readRows(box) {
+    return $$('.row', box).map((r) => Object.fromEntries($$('[data-k]', r).map((i) => [i.dataset.k, i.value.trim()])))
+      .filter((o) => Object.values(o).some(Boolean));
+  }
+
+  /* ---------------- collect / fill ---------------- */
+
+  function collect() {
+    const v = (n) => f(n).value.trim();
+    const type = v('postType');
+    const data = {
+      title: v('title'), slug: v('slug'), description: v('description'),
+      date: v('date'), updated: v('updated'), draft: f('draft').checked,
+      silo: v('silo'), section: v('section'), postType: type,
+      moneyPost: type === 'info' ? v('moneyPost') : '',
+      siblings: checkedValues($('#siblings')), parallel: checkedValues($('#parallel')),
+      tool: v('tool'),
+      tags: v('tags').split(',').map((t) => t.trim().toLowerCase()).filter(Boolean),
+      cover: v('cover'), coverAlt: v('coverAlt'), author: v('author'),
+      productName: v('productName'), bestFor: v('bestFor'),
+      primaryKeyword: v('primaryKeyword'),
+      rating: type === 'money' && v('rating') !== '' ? Number(v('rating')) : undefined,
+      testedHandsOn: f('testedHandsOn').checked,
+      pros: lines(f('pros').value), cons: lines(f('cons').value),
+      affiliateLinks: readRows($('#affRows')).map((l) => ({ label: l.label, url: l.url, merchant: l.merchant || undefined })),
+      faqs: readRows($('#faqRows')),
+      noindex: f('noindex').checked,
+    };
+    return { file: current.file, data, body: f('body').value };
+  }
+
+  function fill(data, body) {
+    const s = (n, val) => { f(n).value = val ?? ''; };
+    for (const n of ['title', 'slug', 'description', 'date', 'updated', 'cover', 'coverAlt', 'author', 'productName', 'bestFor', 'primaryKeyword']) s(n, data[n]);
+    s('silo', data.silo || META.silos[0].slug);
+    s('section', data.section || META.sections[0].slug);
+    s('postType', data.postType || 'money');
+    s('tool', data.tool);
+    s('rating', data.rating ?? '');
+    s('tags', (data.tags || []).join(', '));
+    s('pros', (data.pros || []).join('\n'));
+    s('cons', (data.cons || []).join('\n'));
+    f('draft').checked = !!data.draft;
+    f('testedHandsOn').checked = !!data.testedHandsOn;
+    f('noindex').checked = !!data.noindex;
+    f('body').value = body ?? '';
+    $('#affRows').replaceChildren(); (data.affiliateLinks || []).forEach(affRow);
+    $('#faqRows').replaceChildren(); (data.faqs || []).forEach(faqRow);
+
+    renderLinkOptions({ siblings: data.siblings || [], parallel: data.parallel || [], moneyPost: data.moneyPost || '' });
+    $('#extras').open = !!(data.affiliateLinks?.length || data.faqs?.length || data.pros?.length || data.rating !== undefined);
+    slugTouched = !!current.file;
+    updateCover(); updateCounter(); clearIssues();
+    snapshot = JSON.stringify(collect());
+  }
+
+  const dirty = () => snapshot !== null && JSON.stringify(collect()) !== snapshot;
+
+  /* ---------------- sidebar ---------------- */
+
+  async function loadPosts() {
+    const { data } = await api('/api/posts');
+    POSTS = data.posts || [];
+    renderList();
+  }
+
+  function renderList() {
+    const q = $('#filter').value.trim().toLowerCase();
+    const list = POSTS.filter((p) => !q || p.title.toLowerCase().includes(q) || String(p.slug).includes(q));
+    const out = [];
+    for (const silo of META.silos) {
+      const inSilo = list.filter((p) => p.silo === silo.slug);
+      if (!inSilo.length) continue;
+      const g = h('div', { class: 'group' }, h('div', { class: 'group-title' }, silo.label));
+      for (const sec of META.sections) {
+        const items = inSilo.filter((p) => p.section === sec.slug);
+        if (!items.length) continue;
+        g.append(h('div', { class: 'subgroup-title' }, sec.label));
+        for (const p of items) g.append(postButton(p));
+      }
+      out.push(g);
+    }
+    const orphans = list.filter((p) => !META.silos.some((s) => s.slug === p.silo));
+    if (orphans.length) out.push(h('div', { class: 'group' }, h('div', { class: 'group-title' }, 'Needs fixing'), ...orphans.map(postButton)));
+    $('#postList').replaceChildren(...(out.length ? out : [h('p', { class: 'muted' }, 'No posts yet.')]));
+  }
+
+  function postButton(p) {
+    const tags = [
+      h('span', { class: `tag ${p.postType === 'money' ? 'money' : ''}` }, p.postType || '?'),
+      p.invalid ? h('span', { class: 'tag bad', title: p.invalid }, 'invalid') : null,
+      p.draft ? h('span', { class: 'tag draft' }, 'draft') : (!p.invalid && !p.live ? h('span', { class: 'tag draft' }, 'scheduled') : null),
+    ];
+    return h('button', { type: 'button', class: `post-item ${p.file === current.file ? 'active' : ''}`, onclick: () => openPost(p.file) },
+      h('span', { class: 't' }, p.title), ...tags);
+  }
+
+  async function openPost(file) {
+    if (dirty() && !confirm('Discard unsaved changes?')) return;
+    const { status, data } = await api(`/api/post?file=${encodeURIComponent(file)}`);
+    if (status !== 200) return showBanner('error', data.error || 'Could not open the post');
+    current = { file };
+    $('#formTitle').textContent = `Editing content/posts/${file}`;
+    $('#saveBtn').textContent = 'Save changes';
+    fill(data.data, data.body);
+    showBanner('', '');
+    renderList();
+    schedulePreview(0);
+  }
+
+  function newPost() {
+    if (dirty() && !confirm('Discard unsaved changes?')) return;
+    current = { file: null };
+    $('#formTitle').textContent = 'New post';
+    $('#saveBtn').textContent = 'Add post';
+    fill({ date: META.today, draft: true, author: '', postType: 'money' }, '## First section\n\nStart writing here.\n');
+    showBanner('', '');
+    renderList();
+    f('title').focus();
+    schedulePreview(0);
+  }
+
+  /* ---------------- issues ---------------- */
+
+  function clearIssues() {
+    $$('.field', form).forEach((el) => { el.classList.remove('has-error'); const e = $('.err', el); if (e) e.textContent = ''; });
+    $('#summary').replaceChildren();
+  }
+
+  function showIssues(errors = [], warnings = []) {
+    clearIssues();
+    const unplaced = [];
+    for (const e of errors) {
+      const field = $(`.field[data-field="${CSS.escape(e.field)}"]`, form);
+      if (field) { field.classList.add('has-error'); $('.err', field).textContent = [$('.err', field).textContent, e.message].filter(Boolean).join(' · '); }
+      else unplaced.push(e);
+      if (['affiliateLinks', 'faqs', 'rating', 'pros', 'cons', 'bestFor', 'productName', 'primaryKeyword'].includes(e.field)) $('#extras').open = true;
+    }
+    const items = [
+      ...(errors.length ? [h('div', { class: 'e' }, `✗ ${errors.length} problem${errors.length === 1 ? '' : 's'} — see the highlighted fields.`)] : []),
+      ...unplaced.map((e) => h('div', { class: 'e' }, `✗ ${e.field}: ${e.message}`)),
+      ...warnings.map((w) => h('div', { class: 'w' }, `! ${w.message}`)),
+    ];
+    if (!errors.length && !warnings.length) items.push(h('div', {}, '✓ No problems found.'));
+    $('#summary').replaceChildren(...items);
+    const first = $('.field.has-error', form);
+    if (first) first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  }
+
+  function showBanner(kind, ...content) {
+    const b = $('#banner');
+    if (!kind) return b.replaceChildren();
+    b.replaceChildren(h('div', { class: `banner ${kind}` }, ...content));
+  }
+
+  /* ---------------- check / save ---------------- */
+
+  async function runCheck() {
+    const { data } = await api('/api/check', collect());
+    showIssues(data.errors, data.warnings);
+    return data;
+  }
+
+  async function save() {
+    const btn = $('#saveBtn');
+    btn.disabled = true;
+    try {
+      const payload = collect();
+      const { status, data } = await api('/api/save', payload);
+      if (status === 422) {
+        showIssues(data.errors, data.warnings);
+        showBanner('error', 'Not saved — fix the highlighted problems first. Nothing was written.');
+        return;
+      }
+      if (status !== 200) return showBanner('error', `Not saved: ${data.error || 'unknown error'}`);
+
+      const wasNew = !current.file;
+      current = { file: data.file };
+      $('#formTitle').textContent = `Editing content/posts/${data.file}`;
+      $('#saveBtn').textContent = 'Save changes';
+      snapshot = JSON.stringify(collect());
+      showIssues([], data.warnings || []);
+      const status_ = payload.data.draft
+        ? 'It’s a draft, so it won’t appear on the site until you untick Draft and save again.'
+        : data.live
+          ? 'It goes live on electricmood.com after you commit, push and merge to main.'
+          : `It goes live on the first build on or after ${payload.data.date}.`;
+      showBanner('ok',
+        h('div', {}, `✓ ${wasNew ? 'Added' : 'Saved'} `, h('code', {}, `content/posts/${data.file}`), '. Not committed — commit when you’re ready.'),
+        h('div', {}, status_),
+        !payload.data.draft && data.live
+          ? h('div', {}, 'Check it on your local site: ', h('a', { href: META.siteUrl + data.path, target: '_blank', rel: 'noopener' }, data.path))
+          : null);
+      await loadPosts();
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  /* ---------------- preview ---------------- */
+
+  let previewTimer;
+  function schedulePreview(ms = 700) {
+    if (!$('#togglePreview').checked) return;
+    clearTimeout(previewTimer);
+    previewTimer = setTimeout(async () => {
+      $('#previewStatus').textContent = 'updating…';
+      const { data } = await api('/api/preview', collect()).catch(() => ({ data: { mdxError: 'Studio server not reachable' } }));
+      $('#previewStatus').textContent = data.mdxError ? '⚠ MDX error (see preview)' : 'up to date';
+      $('#previewFrame').src = `${META.previewUrl}?t=${Date.now()}`;
+    }, ms);
+  }
+
+  /* ---------------- uploads ---------------- */
+
+  const canUpload = () => !!(META.cloudinary.cloudName && META.cloudinary.uploadPreset);
+
+  async function upload(file) {
+    if (!canUpload()) throw new Error('Uploads are not set up (see .env.example: STUDIO_CLOUDINARY_UPLOAD_PRESET)');
+    if (!/^image\//.test(file.type)) throw new Error('Please choose an image file');
+    if (file.size > 15 * 1024 * 1024) throw new Error('Image is over 15 MB');
+    const body = new FormData();
+    body.append('file', file);
+    body.append('upload_preset', META.cloudinary.uploadPreset);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(META.cloudinary.cloudName)}/image/upload`, { method: 'POST', body });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error?.message || 'Upload failed');
+    return data.secure_url;
+  }
+
+  function pickFile() {
+    return new Promise((resolve) => {
+      const input = h('input', { type: 'file', accept: 'image/*' });
+      input.addEventListener('change', () => resolve(input.files[0]));
+      input.click();
+    });
+  }
+
+  function updateCover() {
+    const url = f('cover').value.trim();
+    const img = $('#coverThumb');
+    if (/^https:\/\/res\.cloudinary\.com\//.test(url)) {
+      img.src = url.replace('/image/upload/', '/image/upload/f_auto,q_auto,w_440/');
+      img.classList.remove('hidden');
+    } else img.classList.add('hidden');
+  }
+
+  async function uploadCover(file) {
+    const drop = $('#coverDrop');
+    if (!file) return;
+    const label = drop.textContent;
+    drop.textContent = 'Uploading…';
+    try {
+      f('cover').value = await upload(file);
+      updateCover(); changed();
+      if (!f('coverAlt').value.trim()) f('coverAlt').focus();
+    } catch (e) {
+      showBanner('error', `Upload failed: ${e.message}`);
+    } finally {
+      drop.textContent = label;
+    }
+  }
+
+  /* ---------------- editor toolbar ---------------- */
+
+  function insert(text, { wrap } = {}) {
+    const ta = f('body');
+    const [s, e] = [ta.selectionStart, ta.selectionEnd];
+    const sel = ta.value.slice(s, e);
+    const out = wrap ? `${wrap}${sel || 'text'}${wrap}` : text;
+    ta.setRangeText(out, s, e, 'end');
+    ta.focus();
+    changed();
+  }
+
+  const SNIPPETS = {
+    'H2': '\n## Heading\n\n',
+    'H3': '\n### Subheading\n\n',
+    'List': '\n- First point\n- Second point\n',
+    'Link': '[link text](https://)',
+    'Affiliate link': '[Check price](https://example.com/product#aff)',
+    'Table': '\n| Column | Column |\n| --- | --- |\n| Cell | Cell |\n',
+    'Callout': '\n<Callout type="tip" title="Tip">\nText here.\n</Callout>\n',
+    'Best for': '\n<BestFor label="Commuters" product="Product name" reason="Why it wins." href="https://example.com/product" />\n',
+    'Pros/cons': '\n<ProsCons />\n',
+    'Comparison': '\n<ComparisonTable\n  headers={["", "Model A", "Model B"]}\n  rows={[["Range", "40 km", "55 km"], ["Weight", "14 kg", "19 kg"]]}\n/>\n',
+    'Specs': '\n<SpecTable specs={[{ label: "Range", value: "40 km" }, { label: "Weight", value: "14 kg" }]} />\n',
+    'Product box': '\n<ProductBox name="Product name" image="https://res.cloudinary.com/…" imageAlt="Describe the photo" rating={4.2}\n  links={[{ label: "Check price", url: "https://example.com/product", merchant: "Amazon" }]}>\n  One-paragraph summary.\n</ProductBox>\n',
+    'FAQ': '\n<FAQ />\n',
+  };
+
+  function buildToolbar() {
+    const tb = $('#toolbar');
+    tb.append(
+      h('button', { type: 'button', title: 'Bold', onclick: () => insert('', { wrap: '**' }) }, h('b', {}, 'B')),
+      h('button', { type: 'button', title: 'Italic', onclick: () => insert('', { wrap: '_' }) }, h('i', {}, 'I')),
+    );
+    for (const [label, text] of Object.entries(SNIPPETS)) {
+      if (label === 'Callout') tb.append(h('span', { class: 'sep' }));
+      tb.append(h('button', { type: 'button', onclick: () => insert(text) }, label));
+    }
+    tb.append(h('span', { class: 'sep' }));
+    tb.append(h('button', {
+      type: 'button',
+      title: canUpload() ? 'Upload an image to Cloudinary and insert it' : 'Set up STUDIO_CLOUDINARY_UPLOAD_PRESET to enable uploads',
+      onclick: async () => {
+        if (!canUpload()) return insert('![Describe the image](https://res.cloudinary.com/…)');
+        const file = await pickFile();
+        if (!file) return;
+        const alt = prompt('Alt text for this image (required):', '');
+        if (alt === null) return;
+        try { insert(`\n![${alt.replace(/[\[\]]/g, '')}](${await upload(file)})\n`); } catch (e) { showBanner('error', `Upload failed: ${e.message}`); }
+      },
+    }, canUpload() ? '⬆ Image' : 'Image'));
+    const link = h('select', { 'aria-label': 'Insert internal link', onchange: (e) => {
+      const p = POSTS.find((x) => x.file === e.target.value);
+      if (p?.path) insert(`[${p.title}](${p.path})`);
+      e.target.value = '';
+    } });
+    tb.append(link);
+    const refreshLinks = () => link.replaceChildren(h('option', { value: '' }, 'Internal link…'),
+      ...POSTS.filter((p) => p.path && !p.draft).map((p) => h('option', { value: p.file }, p.title)));
+    refreshLinks();
+    document.addEventListener('posts-updated', refreshLinks);
+  }
+
+  /* ---------------- events ---------------- */
+
+  function updateCounter() {
+    const n = f('description').value.trim().length;
+    const c = $('#descCount');
+    c.textContent = `${n}/160`;
+    c.classList.toggle('bad', n > 0 && (n < 120 || n > 160));
+  }
+
+  function changed() { schedulePreview(); }
+
+  form.addEventListener('input', (e) => {
+    if (e.target === f('title') && !slugTouched) f('slug').value = slugify(f('title').value);
+    if (e.target === f('slug')) slugTouched = true;
+    if (e.target === f('description')) updateCounter();
+    if (e.target === f('cover')) updateCover();
+    if (e.target === f('slug') || e.target === f('title')) renderLinkOptions();
+    changed();
+  });
+  form.addEventListener('change', (e) => {
+    if (['silo', 'section', 'postType'].includes(e.target.name)) renderLinkOptions();
+    changed();
+  });
+
+  $('#addAff').addEventListener('click', () => { affRow(); changed(); });
+  $('#addFaq').addEventListener('click', () => { faqRow(); changed(); });
+  $('#newBtn').addEventListener('click', newPost);
+  $('#saveBtn').addEventListener('click', save);
+  $('#checkBtn').addEventListener('click', runCheck);
+  $('#filter').addEventListener('input', renderList);
+  $('#togglePreview').addEventListener('change', (e) => {
+    $('#layout').classList.toggle('no-preview', !e.target.checked);
+    if (e.target.checked) schedulePreview(0);
+  });
+
+  const drop = $('#coverDrop');
+  drop.addEventListener('click', async () => uploadCover(await pickFile()));
+  drop.addEventListener('keydown', async (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); uploadCover(await pickFile()); } });
+  drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('over'); });
+  drop.addEventListener('dragleave', () => drop.classList.remove('over'));
+  drop.addEventListener('drop', (e) => { e.preventDefault(); drop.classList.remove('over'); uploadCover(e.dataTransfer.files[0]); });
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+  });
+  window.addEventListener('beforeunload', (e) => { if (dirty()) { e.preventDefault(); e.returnValue = ''; } });
+
+  /* ---------------- start ---------------- */
+
+  (async () => {
+    META = (await api('/api/meta')).data;
+    renderStaticOptions();
+    $('#openPreview').href = META.previewUrl;
+    if (!canUpload()) {
+      drop.classList.add('disabled');
+      drop.textContent = 'Uploads off: add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and STUDIO_CLOUDINARY_UPLOAD_PRESET to .env.local (see .env.example). You can paste a Cloudinary URL above instead.';
+    }
+    await loadPosts();
+    buildToolbar();
+    const orig = loadPosts;
+    loadPosts = async () => { await orig(); document.dispatchEvent(new Event('posts-updated')); };
+    newPost();
+    document.body.dataset.ready = '1';
+  })();
+})();
+</script>
+</body>
+</html>
