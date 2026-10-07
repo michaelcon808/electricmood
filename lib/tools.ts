@@ -69,7 +69,7 @@ export const TOOLS: ToolInfo[] = [
         answer: 'Yes. Lithium-ion batteries deliver noticeably less energy below about 10 °C. Storing the battery indoors and charging it warm helps.',
       },
     ],
-    recommendedPosts: ['best-commuter-electric-scooters', 'best-electric-bikes-with-a-passenger-seat'],
+    recommendedPosts: ['best-electric-scooters-for-adults-reviews', 'how-fast-can-an-electric-bike-or-ebike-go'],
   },
   {
     slug: 'charging-time-calculator',
@@ -111,7 +111,7 @@ export const TOOLS: ToolInfo[] = [
         answer: 'Only one the manufacturer approves for your battery. Higher current generates more heat and can shorten battery life or be unsafe.',
       },
     ],
-    recommendedPosts: ['best-chargers', 'how-long-does-an-electric-scooter-take-to-charge'],
+    recommendedPosts: ['best-electric-scooters-for-adults-reviews'],
   },
   {
     slug: 'power-station-calculator',
@@ -156,7 +156,7 @@ export const TOOLS: ToolInfo[] = [
         answer: 'Lithium iron phosphate — a battery chemistry common in power stations. It is heavier than NMC but lasts thousands of cycles and is very stable.',
       },
     ],
-    recommendedPosts: ['best-chargers'],
+    recommendedPosts: [],
   },
 ];
 

@@ -14,7 +14,7 @@ import { spawn, type ChildProcess } from 'node:child_process';
 import matter from 'gray-matter';
 import { compile } from '@mdx-js/mdx';
 import remarkGfm from 'remark-gfm';
-import { sections, silos } from '../../config/site-structure';
+import { normalizeSection, sections, silos } from '../../config/site-structure';
 import { buildPost, isPublished, POSTS_DIR, type Post } from '../../lib/content';
 import { contentIssues, referenceIssues, type Issue } from '../../lib/post-checks';
 import { frontmatterSchema } from '../../lib/schema';
@@ -204,7 +204,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && url.pathname === '/api/meta') {
       return json(res, 200, {
         silos: silos.map((s) => ({ slug: s.slug, label: s.label, shortLabel: s.shortLabel })),
-        sections: sections.map((s) => ({ slug: s.slug, label: s.label })),
+        sections: sections.map((s) => ({ slug: s.slug, label: s.contentLabel })),
         postTypes: POST_TYPES,
         tools: TOOLS.map((t) => ({ slug: t.slug, name: t.name })),
         defaultAuthor: DEFAULT_AUTHOR,
@@ -237,7 +237,7 @@ const server = http.createServer(async (req, res) => {
       const file = safeFile(url.searchParams.get('file'));
       if (!file) return json(res, 404, { error: 'Post not found' });
       const { data, content } = matter(fs.readFileSync(path.join(POSTS_DIR, file), 'utf8'));
-      const formData = Object.fromEntries(Object.entries(data).map(([k, v]) => [k, toDay(v)]));
+      const formData = Object.fromEntries(Object.entries(data).map(([k, v]) => [k, k === 'section' ? normalizeSection(v) : toDay(v)]));
       return json(res, 200, { file, data: formData, body: content.replace(/^\s*\n/, '') });
     }
 

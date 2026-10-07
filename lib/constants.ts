@@ -5,9 +5,9 @@ export const DEFAULT_AUTHOR = 'ElectricMood Editorial Team';
 export const POST_TYPES = ['money', 'info', 'comparison'] as const;
 export type PostType = (typeof POST_TYPES)[number];
 
-/** Badge text shown on hub pages and cards. */
+/** Badge text shown to visitors on hub pages, cards and posts. The internal type name `money` is never displayed. */
 export const POST_TYPE_LABELS: Record<PostType, string> = {
-  money: 'Money',
+  money: 'Review',
   info: 'Info',
   comparison: 'Comparison',
 };

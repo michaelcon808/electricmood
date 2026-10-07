@@ -1,6 +1,6 @@
 // Frontmatter schemas. Pure module (no fs / Next imports) so scripts can reuse it.
 import { z } from 'zod';
-import { SECTION_SLUGS, SILO_SLUGS } from '../config/site-structure';
+import { normalizeSection, SECTION_SLUGS, SILO_SLUGS } from '../config/site-structure';
 import { DEFAULT_AUTHOR, POST_TYPES } from './constants';
 
 export const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -39,7 +39,8 @@ export const frontmatterSchema = z
 
     // Site structure (must exist in config/site-structure.ts)
     silo: z.enum(SILO_SLUGS),
-    section: z.enum(SECTION_SLUGS),
+    // `buying-guides` is accepted as an alias of `reviews`.
+    section: z.preprocess(normalizeSection, z.enum(SECTION_SLUGS)),
     postType: z.enum(POST_TYPES),
     /** Info posts: slug of the Money post they point readers to (the info → money arrow). */
     // An empty value (moneyPost: "") just means "none" (money posts don't point at another money post).

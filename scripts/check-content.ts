@@ -45,9 +45,11 @@ function checkDir(dirName: 'posts' | 'learn') {
     }
 
     problems.push(...contentIssues(data, content).map((i) => i.message));
-    // A placeholder cover ("CLOUDINARY_URL_HERE") is fine while the post is a draft, but must be replaced before publishing.
+    // A placeholder cover ("CLOUDINARY_URL_HERE") is allowed: the post is built without a hero image (no broken image,
+    // no social-card image). It is only a reminder, never a build error, so posts can go live before the photos exist.
     if (dirName === 'posts' && typeof data.cover === 'string' && isPlaceholderImage(data.cover)) {
-      problems.push('cover is still a placeholder: upload the image to Cloudinary and paste its URL before publishing');
+      console.warn(`! ${rel}: no cover image yet (placeholder) — add the Cloudinary URL when you have it`);
+      warnCount++;
     }
 
     for (const p of problems) {

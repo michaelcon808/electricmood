@@ -11,37 +11,40 @@ const SILOS = [
     slug: 'electric-scooters',
     label: 'Electric scooters',
     shortLabel: 'Scooter',
-    description: 'Buying guides, accessories and how-tos for electric scooters, from commuter picks to theft protection.',
+    description: 'Reviews, accessories and how-tos for electric scooters, from commuter picks to theft protection.',
   },
   {
     slug: 'electric-bikes',
     label: 'Electric bikes',
     shortLabel: 'E-bike',
-    description: 'Buying guides, accessories and how-tos for electric bikes, from passenger seats to the laws where you ride.',
+    description: 'Reviews, accessories and how-tos for electric bikes, from passenger seats to the laws where you ride.',
   },
   {
     slug: 'electric-skateboards',
     label: 'Electric skateboards',
     shortLabel: 'E-skateboard',
-    description: 'Buying guides, accessories and how-tos for electric skateboards, from the best brands to keeping them running.',
+    description: 'Reviews, accessories and how-tos for electric skateboards, from the best brands to keeping them running.',
   },
 ] as const;
 
 /** The same three sections exist in every silo. */
 const SECTIONS = [
   {
-    slug: 'buying-guides',
-    label: 'Buying guides',
+    slug: 'reviews', // id used in frontmatter and in the hub URL (/electric-scooters/reviews/)
+    label: 'Reviews', // shown ONLY in the header menu and the breadcrumbs
+    contentLabel: 'Buying guides', // shown everywhere else (hub headings, post badges, "Back to…", "More in…")
     description: 'Our top picks and comparisons to help you choose the right one.',
   },
   {
     slug: 'accessories',
     label: 'Accessories',
+    contentLabel: 'Accessories',
     description: 'Locks, chargers, trackers and gear that make riding safer and easier.',
   },
   {
     slug: 'guides',
     label: 'Guides',
+    contentLabel: 'Guides',
     description: 'How-tos, fixes, maintenance and the rules of the road.',
   },
 ] as const;
@@ -60,12 +63,18 @@ export type SharedItem = (typeof SHARED)[number];
 
 // Validate the structure when the module loads, so a typo fails the build immediately.
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slugs use lowercase letters, numbers and hyphens');
-const node = z.object({ slug, label: z.string().min(1), description: z.string().min(10).max(200) });
+// Visitor-facing names (menus, hubs, breadcrumbs) must never use the internal SEO term "Money".
+const noMoney = (s: string) => !/\bmoney\b/i.test(s);
+const node = z.object({
+  slug,
+  label: z.string().min(1).refine(noMoney, 'labels shown in menus and breadcrumbs must not contain the word "Money"'),
+  description: z.string().min(10).max(200),
+});
 const unique = (items: readonly { slug: string }[]) => new Set(items.map((i) => i.slug)).size === items.length;
 
 z.object({
   silos: z.array(node.extend({ shortLabel: z.string().min(1) })).min(1).refine(unique, 'duplicate silo slug'),
-  sections: z.array(node).min(1).refine(unique, 'duplicate section slug'),
+  sections: z.array(node.extend({ contentLabel: z.string().min(1).refine(noMoney, 'must not contain the word "Money"') })).min(1).refine(unique, 'duplicate section slug'),
   shared: z
     .array(node.extend({ path: z.string().startsWith('/').endsWith('/') }))
     .min(1)
@@ -75,6 +84,10 @@ z.object({
 export const silos: readonly Silo[] = SILOS;
 export const sections: readonly Section[] = SECTIONS;
 export const shared: readonly SharedItem[] = SHARED;
+
+/** Older names still accepted in frontmatter, so existing/future articles that say `section: buying-guides` keep working. */
+const SECTION_ALIASES: Record<string, SectionSlug> = { 'buying-guides': 'reviews' };
+export const normalizeSection = (v: unknown): unknown => (typeof v === 'string' ? (SECTION_ALIASES[v.trim()] ?? v.trim()) : v);
 
 export const SILO_SLUGS = SILOS.map((s) => s.slug) as unknown as readonly [SiloSlug, ...SiloSlug[]];
 export const SECTION_SLUGS = SECTIONS.map((s) => s.slug) as unknown as readonly [SectionSlug, ...SectionSlug[]];
@@ -86,8 +99,8 @@ export function getAllSiloSectionPairs(): { silo: Silo; section: Section }[] {
   return SILOS.flatMap((silo) => SECTIONS.map((section) => ({ silo, section })));
 }
 
-/** Section hub page heading, e.g. "Scooter accessories", "E-bike guides". Menus use the plain section label. */
-export const sectionHeading = (silo: Silo, section: Section) => `${silo.shortLabel} ${section.label.toLowerCase()}`;
+/** Section hub page heading, e.g. "Scooter buying guides", "E-bike guides". Uses the content name; the header menu and breadcrumbs use `label`. */
+export const sectionHeading = (silo: Silo, section: Section) => `${silo.shortLabel} ${section.contentLabel.toLowerCase()}`;
 
 /* ---------------- Breadcrumbs (labels always come from this config, never from URLs) ---------------- */
 

@@ -14,6 +14,7 @@
  * Prints a table of every post with inbound and outbound link counts.
  */
 import { buildBreadcrumbs, sections, silos } from '../config/site-structure';
+import { POST_TYPE_LABELS } from '../lib/constants';
 import {
   getAllGeneratedPaths,
   getLearnPages,
@@ -62,6 +63,18 @@ for (const p of all) {
   for (const href of getPendingBodyLinks(p)) unresolved.push({ post: p.key, kind: 'body link', target: href });
   // hub completeness (published posts only)
   if (live && !getSectionPosts(p.silo, p.section).some((x) => x.key === p.key)) err(p, `missing from its section hub (${p.silo}/${p.section})`);
+}
+
+// Visitor-facing labels must never use the internal term "Money" (breadcrumbs, menus, hubs, badges).
+for (const [type, label] of Object.entries(POST_TYPE_LABELS)) {
+  if (/\bmoney\b/i.test(label)) err(`lib/constants.ts`, `post type "${type}" is shown to visitors as "${label}"`);
+}
+for (const silo of silos) {
+  for (const section of sections) {
+    for (const c of buildBreadcrumbs({ kind: 'section', silo: silo.slug, section: section.slug })) {
+      if (/\bmoney\b/i.test(c.label)) err(`config/site-structure.ts`, `breadcrumb "${c.label}" contains "Money"`);
+    }
+  }
 }
 
 // Breadcrumbs must point at real URLs.

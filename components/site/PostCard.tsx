@@ -31,7 +31,7 @@ export function PostCard({ post, priority = false }: { post: PostSummary; priori
         <div className="mb-2 flex flex-wrap items-center gap-2 text-xs">
           <PostTypeBadge type={post.postType} />
           <span className="font-semibold uppercase tracking-wide text-neutral-500">
-            {silo?.shortLabel} · {section?.label}
+            {silo?.shortLabel} · {section?.contentLabel}
           </span>
         </div>
         <h3 className="text-lg font-bold leading-snug">

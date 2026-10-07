@@ -68,7 +68,7 @@ export async function PostArticle({ post }: { post: Post }) {
               className={`rounded-full px-3 py-0.5 font-semibold ${ACCENT.section.badge}`}
               data-pagefind-filter="section"
             >
-              {section.label}
+              {section.contentLabel}
             </Link>
           </div>
           <h1 className="text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl" data-pagefind-meta="title">

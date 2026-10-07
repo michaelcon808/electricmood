@@ -25,7 +25,7 @@ export function GET() {
       <guid isPermaLink="true">${url}</guid>
       <description>${esc(p.description)}</description>
       <category>${esc(getSilo(p.silo)?.label ?? '')}</category>
-      <category>${esc(getSection(p.section)?.label ?? '')}</category>
+      <category>${esc(getSection(p.section)?.contentLabel ?? '')}</category>
       <pubDate>${p.date.toUTCString()}</pubDate>
       ${isPlaceholderImage(p.cover) ? '' : `<enclosure url="${esc(cld(p.cover, { width: 1200 }))}" type="image/jpeg" length="0" />`}
     </item>`;

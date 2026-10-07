@@ -72,8 +72,8 @@ export function SiblingsBox({ post, picks }: { post: Post; picks: Post[] }) {
   if (!picks.length) return null;
   const section = getSection(post.section)!;
   return (
-    <section aria-label={`More in ${section.label}`} className={`not-prose card p-5 ${ACCENT.section.bar}`}>
-      <h2 className="mb-3 text-lg font-bold">More in {section.label}</h2>
+    <section aria-label={`More in ${section.contentLabel}`} className={`not-prose card p-5 ${ACCENT.section.bar}`}>
+      <h2 className="mb-3 text-lg font-bold">More in {section.contentLabel}</h2>
       <PostLinkList posts={picks} />
     </section>
   );

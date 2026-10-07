@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { buildBreadcrumbs } from '@/config/site-structure';
 import { getLearnPage, getLearnPages } from '@/lib/content';
-import { absoluteUrl } from '@/lib/site';
+import { absoluteUrl, paths } from '@/lib/site';
 import { pageMetadata } from '@/lib/seo';
 import { MdxContent } from '@/components/mdx/MdxContent';
 import { Breadcrumbs } from '@/components/site/Breadcrumbs';
+import { LearnIndex } from '@/components/site/LearnIndex';
 import { FormattedDate } from '@/components/site/FormattedDate';
 import { JsonLd } from '@/components/site/JsonLd';
 import { SharedStrip } from '@/components/site/LinkBoxes';
@@ -16,12 +17,29 @@ export const dynamicParams = false;
 
 type Props = { params: Promise<{ slug: string }> };
 
+/**
+ * Static export needs at least one page for this dynamic route. While there are no published Learn articles,
+ * a single stand-in page is generated: it shows the same "Coming soon" index, is `noindex`, points its canonical at
+ * /learn/, and is never linked or listed in the sitemap.
+ */
+const STAND_IN = 'coming-soon';
+
 export function generateStaticParams() {
-  return getLearnPages().map((p) => ({ slug: p.slug }));
+  const pages = getLearnPages();
+  return pages.length ? pages.map((p) => ({ slug: p.slug })) : [{ slug: STAND_IN }];
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const page = getLearnPage((await params).slug);
+  const slug = (await params).slug;
+  const page = getLearnPage(slug);
+  if (!page && slug === STAND_IN && getLearnPages().length === 0) {
+    return pageMetadata({
+      title: 'Learn: battery safety, rules and travel',
+      description: 'Shared guides for every electric ride: battery safety, the rules where you ride, and how to travel with scooters, bikes and boards.',
+      path: paths.learn,
+      noindex: true,
+    });
+  }
   if (!page) return {};
   return pageMetadata({
     title: page.title,
@@ -33,7 +51,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function LearnArticlePage({ params }: Props) {
-  const page = getLearnPage((await params).slug);
+  const slug = (await params).slug;
+  const page = getLearnPage(slug);
+  if (!page && slug === STAND_IN && getLearnPages().length === 0) return <LearnIndex />;
   if (!page) notFound();
 
   return (

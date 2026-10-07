@@ -1,1 +1,66 @@
-[]
+[
+  {
+    "source": "/electric-scooters/buying-guides/",
+    "destination": "/electric-scooters/reviews/"
+  },
+  {
+    "source": "/electric-bikes/buying-guides/",
+    "destination": "/electric-bikes/reviews/"
+  },
+  {
+    "source": "/electric-skateboards/buying-guides/",
+    "destination": "/electric-skateboards/reviews/"
+  },
+  {
+    "source": "/presentation",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/buy",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/what",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/why",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/benefits",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/applications",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/engine_architecture",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/engine_computer_code",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/engine_electronics",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/EME203_introduction",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/eme203_introduction",
+    "destination": "/electric-scooters/"
+  },
+  {
+    "source": "/who",
+    "destination": "/about/"
+  },
+  {
+    "source": "/legal_information",
+    "destination": "/about/"
+  }
+]

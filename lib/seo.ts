@@ -72,7 +72,7 @@ export function postMetadata(post: Post): Metadata {
       publishedTime: post.dateISO,
       modifiedTime: post.updatedISO,
       authors: [post.author],
-      section: getSection(post.section)?.label,
+      section: getSection(post.section)?.contentLabel,
       tags: post.tags,
     },
   };
@@ -97,7 +97,7 @@ export function blogPostingJsonLd(post: Post) {
     dateModified: post.updatedISO,
     author: authorLd(post.author),
     publisher,
-    articleSection: `${getSilo(post.silo)?.label}: ${getSection(post.section)?.label}`,
+    articleSection: `${getSilo(post.silo)?.label}: ${getSection(post.section)?.contentLabel}`,
     keywords: post.tags.join(', ') || undefined,
   };
 }

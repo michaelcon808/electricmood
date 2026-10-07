@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const silo = getSilo(slug);
   if (silo) {
     return pageMetadata({
-      title: `${silo.label}: buying guides, accessories and guides`,
+      title: `${silo.label}: reviews, accessories and guides`,
       description: silo.description,
       path: paths.silo(silo.slug),
     });

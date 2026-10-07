@@ -30,7 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...posts.map((p) => ({ url: absoluteUrl(p.path), lastModified: p.updatedISO, changeFrequency: 'monthly' as const, priority: 0.7 })),
     { url: absoluteUrl(paths.tools), changeFrequency: 'monthly', priority: 0.7 },
     ...TOOLS.map((t) => ({ url: absoluteUrl(paths.tool(t.slug)), changeFrequency: 'monthly' as const, priority: 0.7 })),
-    { url: absoluteUrl(paths.learn), changeFrequency: 'monthly', priority: 0.6 },
+    ...(getLearnPages().length > 0 ? [{ url: absoluteUrl(paths.learn), changeFrequency: 'monthly' as const, priority: 0.6 }] : []),
     ...getLearnPages().map((l) => ({ url: absoluteUrl(l.path), lastModified: l.updatedISO, changeFrequency: 'monthly' as const, priority: 0.6 })),
     ...STATIC_PATHS.map((path) => ({ url: absoluteUrl(path), changeFrequency: 'yearly' as const, priority: 0.3 })),
   ];

@@ -39,7 +39,7 @@ npm run preview    # serves out/ at http://localhost:3000
 ```
 Home
 ├── Electric scooters   (silo hub)  /electric-scooters/
-│   ├── Buying guides   (section hub)  /electric-scooters/buying-guides/
+│   ├── Reviews         (section hub)  /electric-scooters/reviews/   (named "Reviews" in the header menu, breadcrumbs and URL; "Buying guides" inside pages)
 │   ├── Accessories                    /electric-scooters/accessories/
 │   └── Guides                         /electric-scooters/guides/
 ├── Electric bikes      (same three sections)
@@ -102,7 +102,7 @@ slug: best-locks                              # unique within its section; no ye
 description: "Our picks for the best electric scooter locks, from compact folding locks to heavy chains, with what to look for in material and security rating."   # 120–160 chars
 date: 2026-10-05                              # future date = hidden until a build after that day
 silo: electric-scooters                       # electric-scooters | electric-bikes | electric-skateboards
-section: accessories                          # buying-guides | accessories | guides
+section: accessories                          # reviews | accessories | guides  (the older name buying-guides still works)
 postType: money                               # money | info | comparison
 cover: https://res.cloudinary.com/<cloud>/image/upload/v123/electricmood/locks.jpg
 coverAlt: A heavy-duty chain lock on a scooter
@@ -351,7 +351,7 @@ Add 301s to `redirects.json`:
 
 ```json
 [
-  { "source": "/2019/05/best-scooters/", "destination": "/electric-scooters/buying-guides/best-commuter-electric-scooters/" },
+  { "source": "/2019/05/best-scooters/", "destination": "/best-commuter-electric-scooters/" },
   { "source": "/old-category/*", "destination": "/electric-scooters/" }
 ]
 ```
