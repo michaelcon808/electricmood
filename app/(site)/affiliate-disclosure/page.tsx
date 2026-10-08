@@ -25,7 +25,13 @@ export default function AffiliateDisclosurePage() {
         No. Retailers and brands don’t pay for coverage or ratings, and they don’t see articles before publication. We
         recommend products we think are right for the reader, including ones we don’t earn a commission on.
       </p>
-      {/* If you join specific programmes (e.g. Amazon Associates), add their required statements here. */}
+      <h2>Amazon Associates</h2>
+      <p>
+        ElectricMood is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program
+        designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. As an
+        Amazon Associate I earn from qualifying purchases. If you click a link to Amazon from this site and buy something,
+        we may earn a commission, and the price you pay does not change.
+      </p>
       <p>
         Questions? <Link href="/contact/">Contact us</Link>.
       </p>

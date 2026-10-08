@@ -345,6 +345,14 @@ The tools index, header menu page, sitemap, search, FAQ/WebApplication JSON-LD a
 
 ---
 
+## Analytics (Google Analytics 4)
+
+- The tag lives in `components/site/Analytics.tsx` and is mounted once in `app/layout.tsx`.
+- It loads **only** in a production build **and** when `NEXT_PUBLIC_GA_MEASUREMENT_ID` is set. Local dev, `npm run studio` and local builds without the variable send nothing. On Netlify the ID is set in `netlify.toml` (it is public, not a secret). Remove that line to switch analytics off.
+- **Consent Mode:** in the EEA, the UK and Switzerland, analytics storage defaults to *denied* (no analytics cookies; Google gets cookieless pings only). Elsewhere it is *granted*. Advertising storage is denied everywhere. There is no consent banner, so visitors in those regions stay un-tracked by cookie. Add a consent banner if you want full data from them.
+- The Privacy policy describes this. Update it if you change the setup.
+- GA4 tracks client-side page changes itself (Enhanced measurement), so no extra code is needed.
+
 ## Redirects (old ElectricMood URLs)
 
 Add 301s to `redirects.json`:

@@ -9,6 +9,8 @@
   NEXT_TELEMETRY_DISABLED = "1"
   # This is a static export: skip Netlify's Next.js server runtime plugin.
   NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  # Google Analytics 4 Measurement ID (public, not a secret). Remove this line to switch analytics off.
+  NEXT_PUBLIC_GA_MEASUREMENT_ID = "G-9XQLBJE6W2"
 
 # Hashed build assets never change: cache forever.
 [[headers]]

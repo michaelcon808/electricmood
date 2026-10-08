@@ -35,7 +35,11 @@ export function Footer() {
       </div>
       <div className="container-page mt-8">
         <p>
-          © {new Date().getFullYear()} {SITE_NAME}. We may earn a commission from links on this site.
+          © {new Date().getFullYear()} {SITE_NAME}. As an Amazon Associate I earn from qualifying purchases. We may also
+          earn a commission when you buy through other links on this site, at no extra cost to you.{' '}
+          <Link href="/affiliate-disclosure/" className="underline hover:text-brand-600 dark:hover:text-brand-400">
+            Affiliate disclosure
+          </Link>
         </p>
         <p className="mt-1">{SITE_TAGLINE}</p>
       </div>
