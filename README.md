@@ -392,7 +392,7 @@ To remove the form, set `CONTACT_FORM_ENABLED = false` in `lib/constants.ts`. Th
    - Node 22
    - Netlify's Next.js server runtime is skipped (`NETLIFY_NEXT_PLUGIN_SKIP`), because this is a plain static site.
 3. Under **Site configuration → Environment variables**, add:
-   - `NEXT_PUBLIC_SITE_URL` = `https://electricmood.com`
+   - `NEXT_PUBLIC_SITE_URL` = `https://www.electricmood.com` (the `www` host is the primary domain; the bare domain redirects to it)
    - `NEXT_PUBLIC_NOINDEX` = `true` (until launch)
    - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME` = your cloud name (optional)
 4. Deploy, then add your domain under **Domain management**.
@@ -408,10 +408,10 @@ To launch:
 1. In Netlify, set `NEXT_PUBLIC_NOINDEX` to `false`.
 2. **Trigger a deploy** (**Deploys → Trigger deploy → Deploy site**). Values are baked in at build time, so nothing changes until you rebuild.
 3. Check the result:
-   - `https://electricmood.com/robots.txt` shows `Allow: /` and a `Sitemap:` line
+   - `https://www.electricmood.com/robots.txt` shows `Allow: /` and a `Sitemap:` line
    - view-source on the homepage has no `noindex`
    - `/sitemap.xml` lists your posts
-4. Submit `https://electricmood.com/sitemap.xml` in Google Search Console.
+4. Submit `https://www.electricmood.com/sitemap.xml` in Google Search Console.
 
 ## Before launch
 
