@@ -1,6 +1,7 @@
 // The internal-link graph. Pages render these lists and the build check (scripts/check-structure.ts)
 // counts the same lists, so what is checked is exactly what is shown.
 import { getAllGeneratedPaths, getPosts, getPostByKey, getSectionPosts, type Post } from './content';
+import { resolveSlugAlias } from './aliases';
 import { STATIC_PATHS } from './site';
 import { TOOLS } from './tools';
 
@@ -10,7 +11,7 @@ export function resolveRef(
   ref: string,
   pool: readonly Post[] = getPosts(),
 ): { post?: Post; matches: Post[] } {
-  const post = pool.find((p) => p.slug === ref);
+  const post = pool.find((p) => p.slug === ref) ?? pool.find((p) => p.slug === resolveSlugAlias(ref));
   return { post, matches: post ? [post] : [] };
 }
 
@@ -31,11 +32,11 @@ export function getInfoPostsFor(money: Post): Post[] {
 export function getParallelPosts(post: Post): Post[] {
   const found = new Map<string, Post>();
   for (const key of post.parallel) {
-    const target = getPostByKey(key);
+    const target = getPostByKey(key) ?? getPostByKey(resolveSlugAlias(key));
     if (target && target.key !== post.key) found.set(target.key, target);
   }
   for (const other of getPosts()) {
-    if (other.key !== post.key && other.parallel.includes(post.key)) found.set(other.key, other);
+    if (other.key !== post.key && other.parallel.some((k) => k === post.key || resolveSlugAlias(k) === post.key)) found.set(other.key, other);
   }
   return [...found.values()];
 }
@@ -45,7 +46,7 @@ export function getSiblingPicks(post: Post, limit = 3): Post[] {
   const inSection = getSectionPosts(post.silo, post.section).filter((p) => p.key !== post.key);
   const picks: Post[] = [];
   for (const slug of post.siblings) {
-    const p = inSection.find((x) => x.slug === slug);
+    const p = inSection.find((x) => x.slug === slug) ?? inSection.find((x) => x.slug === resolveSlugAlias(slug));
     if (p && !picks.includes(p)) picks.push(p);
   }
   for (const p of inSection) {
@@ -65,7 +66,12 @@ export function resolveInternalPath(href: string, _fromSilo?: string, known?: Se
   if (/\.[a-z0-9]+$/i.test(pathPart)) return href; // files like /feed.xml
   const norm = pathPart.endsWith('/') ? pathPart : `${pathPart}/`;
   const urls = known ?? getAllGeneratedPaths(TOOLS.map((t) => t.slug), STATIC_PATHS);
-  return urls.has(norm) ? norm + suffix : undefined;
+  if (urls.has(norm)) return norm + suffix;
+  // A merged or renamed post: /old-slug/ resolves to the live post's URL (config/slug-aliases.json).
+  const slug = norm.replace(/^\/|\/$/g, '');
+  const live = slug && !slug.includes('/') ? resolveSlugAlias(slug) : slug;
+  const aliased = live !== slug ? `/${live}/` : undefined;
+  return aliased && urls.has(aliased) ? aliased + suffix : undefined;
 }
 
 /** Body links that point at pages which don't exist yet (they render as plain text until they do). */

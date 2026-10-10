@@ -1,6 +1,7 @@
 // Post rules shared by the build checks (scripts/check-*.ts) and the studio (scripts/studio),
 // so the editor rejects exactly what the build would reject.
 import type { Post } from './content';
+import { resolveSlugAlias } from './aliases';
 import { resolveRef } from './links';
 
 /**
@@ -62,7 +63,7 @@ export function referenceIssues(post: Post, all: readonly Post[], published: Rea
   if (post.postType === 'info') {
     if (!post.moneyPost) error('moneyPost', 'info posts need a moneyPost');
     else {
-      const target = all.find((x) => x.slug === post.moneyPost);
+      const target = all.find((x) => x.slug === post.moneyPost) ?? all.find((x) => x.slug === resolveSlugAlias(post.moneyPost ?? ''));
       if (!target) pending('moneyPost', `moneyPost "${post.moneyPost}" doesn't exist yet, so the "Ready to buy?" callout is hidden until it does`);
       else if (target.postType !== 'money') error('moneyPost', `"${post.moneyPost}" is a ${target.postType} post, not a money post`);
       else if (!published.has(target.key)) pending('moneyPost', `moneyPost "${post.moneyPost}" isn't published yet (draft or future date)`);
@@ -70,7 +71,7 @@ export function referenceIssues(post: Post, all: readonly Post[], published: Rea
   }
 
   for (const slug of post.siblings) {
-    const target = all.find((x) => x.slug === slug);
+    const target = all.find((x) => x.slug === slug) ?? all.find((x) => x.slug === resolveSlugAlias(slug));
     if (!target) pending('siblings', `sibling "${slug}" doesn't exist yet`);
     else if (target.key === post.key) error('siblings', `sibling "${slug}" is the post itself`);
     else if (target.silo !== post.silo || target.section !== post.section) error('siblings', `sibling "${slug}" is in ${target.silo}/${target.section}; siblings must be in the same section (${post.silo}/${post.section})`);
@@ -78,7 +79,7 @@ export function referenceIssues(post: Post, all: readonly Post[], published: Rea
   }
 
   for (const slug of post.parallel) {
-    const target = all.find((x) => x.slug === slug);
+    const target = all.find((x) => x.slug === slug) ?? all.find((x) => x.slug === resolveSlugAlias(slug));
     if (!target) pending('parallel', `parallel "${slug}" doesn't exist yet`);
     else if (target.key === post.key) error('parallel', `parallel "${slug}" is the post itself`);
     else if (target.silo === post.silo) error('parallel', `parallel "${slug}" is in the same silo (parallel posts cover the same topic in ANOTHER silo)`);

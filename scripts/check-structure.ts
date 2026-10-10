@@ -26,6 +26,7 @@ import {
   type Post,
 } from '../lib/content';
 import { getBodyLinkedPosts, getInfoPostsFor, getMoneyPost, getParallelPosts, getPendingBodyLinks, getSiblingPicks } from '../lib/links';
+import { SLUG_ALIASES } from '../lib/aliases';
 import { referenceIssues } from '../lib/post-checks';
 import { paths, STATIC_PATHS } from '../lib/site';
 import { TOOLS } from '../lib/tools';
@@ -63,6 +64,19 @@ for (const p of all) {
   for (const href of getPendingBodyLinks(p)) unresolved.push({ post: p.key, kind: 'body link', target: href });
   // hub completeness (published posts only)
   if (live && !getSectionPosts(p.silo, p.section).some((x) => x.key === p.key)) err(p, `missing from its section hub (${p.silo}/${p.section})`);
+}
+
+// Slug aliases (config/slug-aliases.json): every target must be a live post, and an old slug must not also be a real post.
+const allSlugs = new Set(all.map((p) => p.slug));
+const seenOld = new Set<string>();
+for (const a of SLUG_ALIASES) {
+  const where = 'config/slug-aliases.json';
+  if (seenOld.has(a.old)) err(where, `"${a.old}" is listed twice`);
+  seenOld.add(a.old);
+  if (a.old === a.new) err(where, `"${a.old}" maps to itself`);
+  else if (allSlugs.has(a.old)) err(where, `"${a.old}" is also a real post, so the alias never applies; remove it`);
+  else if (SLUG_ALIASES.some((b) => b.old === a.new)) err(where, `"${a.old}" points at "${a.new}", which is itself an alias (point it at the live post)`);
+  else if (!pubKeys.has(a.new)) pendingNotes.push(`! ${where}: "${a.old}" points at "${a.new}", which is not a published post yet (links to it stay hidden)`);
 }
 
 // Visitor-facing labels must never use the internal term "Money" (breadcrumbs, menus, hubs, badges).
