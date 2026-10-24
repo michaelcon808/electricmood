@@ -12,7 +12,7 @@ import { JsonLd } from '@/components/site/JsonLd';
 import { PostGrid } from '@/components/site/PostCard';
 
 export const metadata: Metadata = pageMetadata({
-  title: `${SITE_NAME} – E-Scooter, E-Bike & E-Skateboard Reviews, Guides and Calculators`,
+  title: `${SITE_NAME}: E-Scooter, E-Bike & E-Skateboard Reviews, Guides and Calculators`,
   absoluteTitle: true,
   description: SITE_TAGLINE,
   path: '/',
@@ -43,7 +43,7 @@ export default function HomePage() {
               Electric rides, explained
             </p>
             <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl">
-              Find the right electric ride — without the hype.
+              Find the right electric ride, without the hype.
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-neutral-600 dark:text-neutral-400">{SITE_TAGLINE}</p>
           </div>
@@ -60,7 +60,8 @@ export default function HomePage() {
                     alt={post.coverAlt ?? ''}
                     width={480}
                     height={640}
-                    sizes="(min-width: 1024px) 200px, 33vw"
+                    fill
+                    sizes="(min-width: 1024px) 220px, 34vw"
                     priority
                     className="aspect-[3/4] h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />

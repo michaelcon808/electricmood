@@ -40,7 +40,7 @@ export const TOOLS: ToolInfo[] = [
     assumptions: [
       'Base consumption: 13 Wh/km (e-scooter) and 9 Wh/km (e-bike, normal assist) for a 75 kg rider on flat ground at 20 km/h and 20 °C.',
       'Weight factor = 0.4 + 0.6 × (rider + vehicle) ÷ (75 kg + vehicle). Vehicle weight: 15 kg scooter, 24 kg e-bike.',
-      'Speed factor = 0.5 + 0.5 × (speed ÷ 20)² — air drag grows with the square of speed.',
+      'Speed factor = 0.5 + 0.5 × (speed ÷ 20)², because air drag grows with the square of speed.',
       'Terrain: flat ×1.0, rolling ×1.2, hilly ×1.45. Assist (e-bike): eco ×0.65, normal ×1.0, high ×1.5.',
       'Temperature: about 1.2% less usable energy per °C below 20 °C (minimum 60%).',
       '10% of capacity is held back by the battery management system. The ±15% band covers wind, tyre pressure and stop-start riding.',
@@ -90,7 +90,7 @@ export const TOOLS: ToolInfo[] = [
     assumptions: [
       'Charging runs at full power up to 80%, then tapers; the last 20% is modelled at half power on average.',
       'Charging efficiency (wall to battery) defaults to 85% to cover charger and battery losses.',
-      'Charger power is estimated from the battery’s nominal voltage — real chargers vary slightly.',
+      'Charger power is estimated from the battery’s nominal voltage; real chargers vary slightly.',
     ],
     explainer: [
       {
@@ -99,7 +99,7 @@ export const TOOLS: ToolInfo[] = [
       },
       {
         heading: 'Charging is cheap',
-        body: 'Even a large e-bike battery stores less than 1 kWh, so a full charge usually costs less than a coffee — often just a few cents.',
+        body: 'Even a large e-bike battery stores less than 1 kWh, so a full charge usually costs less than a coffee, often just a few cents.',
       },
     ],
     faqs: [
@@ -133,7 +133,7 @@ export const TOOLS: ToolInfo[] = [
     assumptions: [
       'Inverter efficiency defaults to 85% for AC devices; USB/12 V devices are assumed 95% efficient.',
       'Usable capacity defaults to 90% of the rated Wh.',
-      'Assumes all devices could run at the same time when sizing the inverter, with a 25% margin. Motors and compressors can surge 2–3× on start-up — check surge ratings.',
+      'Assumes all devices could run at the same time when sizing the inverter, with a 25% margin. Motors and compressors can surge 2–3× on start-up, so check surge ratings.',
       'Solar estimate assumes panels deliver about 75% of their rating in real conditions.',
       'For fridges, use average watts (or watts × duty cycle), not the peak rating.',
     ],
@@ -154,7 +154,7 @@ export const TOOLS: ToolInfo[] = [
       },
       {
         question: 'What does LiFePO4 mean?',
-        answer: 'Lithium iron phosphate — a battery chemistry common in power stations. It is heavier than NMC but lasts thousands of cycles and is very stable.',
+        answer: 'Lithium iron phosphate, a battery chemistry common in power stations. It is heavier than NMC but lasts thousands of cycles and is very stable.',
       },
     ],
     recommendedPosts: [],

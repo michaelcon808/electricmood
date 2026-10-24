@@ -108,7 +108,7 @@ export default function PowerStationCalculator() {
         <ResultCard label="Recommended capacity" value={`${fmt(r.recommendedWh)} Wh`} sub={`Minimum ${fmt(r.requiredWh)} Wh needed`} />
         <ResultCard label="Inverter output" value={`≥ ${fmt(r.inverterW)} W`} sub={`${fmt(r.runningW)} W if everything runs at once, +25%`} />
         <ResultCard label="Daily energy use" value={`${fmt(r.dailyLoadWh)} Wh`} sub={`${fmt(r.dailyBatteryWh)} Wh from the battery incl. losses`} />
-        <ResultCard label="Solar to refill daily" value={r.solarW ? `≈ ${fmt(r.solarW)} W` : '—'} sub={`at ${sunHours} peak sun hours`} />
+        <ResultCard label="Solar to refill daily" value={r.solarW ? `≈ ${fmt(r.solarW)} W` : 'n/a'} sub={`at ${sunHours} peak sun hours`} />
       </ResultsPanel>
     </div>
   );

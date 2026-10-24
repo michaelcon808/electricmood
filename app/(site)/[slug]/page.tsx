@@ -42,7 +42,7 @@ export default async function RootSlugPage({ params }: Props) {
     <>
       {unpublished && (
         <div role="status" className="border-b border-amber-300 bg-amber-50 px-4 py-2 text-center text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-900/20 dark:text-amber-200">
-          <strong>{post.draft ? 'Draft preview' : `Scheduled for ${post.dateISO.slice(0, 10)}`}</strong> — visible only in <code>npm run dev</code>.
+          <strong>{post.draft ? 'Draft preview' : `Scheduled for ${post.dateISO.slice(0, 10)}`}</strong>: visible only in <code>npm run dev</code>.
           It is not in lists, hubs, the sitemap, RSS or search, and it is not built for production.
         </div>
       )}

@@ -88,7 +88,7 @@ export function ResultsPanel({ children, valid = true }: { children: React.React
   return (
     <section aria-live="polite" aria-label="Results" className="rounded-2xl bg-brand-50 p-5 dark:bg-brand-700/10">
       <p className="mb-3 text-sm font-semibold">
-        Estimated results <span className="font-normal text-neutral-500">— estimates only, real-world results vary.</span>
+        Estimated results <span className="font-normal text-neutral-500">(estimates only; real-world results vary)</span>
       </p>
       {valid ? <div className="grid gap-3 sm:grid-cols-2">{children}</div> : <p className="text-sm">Fill in all fields with positive numbers.</p>}
     </section>
@@ -96,6 +96,6 @@ export function ResultsPanel({ children, valid = true }: { children: React.React
 }
 
 export const fmt = (n: number, digits = 0) =>
-  Number.isFinite(n) ? n.toLocaleString('en-US', { maximumFractionDigits: digits, minimumFractionDigits: digits }) : '—';
+  Number.isFinite(n) ? n.toLocaleString('en-US', { maximumFractionDigits: digits, minimumFractionDigits: digits }) : 'n/a';
 
 export const allPositive = (...ns: number[]) => ns.every((n) => Number.isFinite(n) && n > 0);

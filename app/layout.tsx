@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'], display: 'swap', variable: '--font-int
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: `${SITE_NAME} – E-Scooter & E-Bike Reviews`, template: `%s | ${SITE_NAME}` },
+  title: { default: `${SITE_NAME}: E-Scooter & E-Bike Reviews`, template: `%s | ${SITE_NAME}` },
   description: SITE_TAGLINE,
   applicationName: SITE_NAME,
   openGraph: { siteName: SITE_NAME, type: 'website', locale: 'en_US' },

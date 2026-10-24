@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
 
 export default function ContactThanksPage() {
   return (
-    <StaticPage title="Thanks — message sent" path="/contact/thanks/">
+    <StaticPage title="Thanks, your message was sent" path="/contact/thanks/">
       <p>We’ve received your message and usually reply within a few working days.</p>
       <p>
         <Link href="/">Back to the home page →</Link>
