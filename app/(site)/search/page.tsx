@@ -8,7 +8,7 @@ import { SearchBox } from '@/components/site/SearchBox';
 
 export const metadata: Metadata = pageMetadata({
   title: 'Search',
-  description: 'Search ElectricMood reviews, buying guides, explainers and calculators across scooters, bikes and skateboards.',
+  description: 'Search ElectricMood reviews, guides, explainers and calculators across scooters, bikes and skateboards.',
   path: paths.search,
   noindex: true,
 });

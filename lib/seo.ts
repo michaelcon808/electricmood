@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getSection, getSilo } from '../config/site-structure';
-import { DEFAULT_AUTHOR, SITE_NAME } from './constants';
+import { DEFAULT_AUTHOR, DEFAULT_SOCIAL_IMAGE, SITE_NAME } from './constants';
 import { absoluteUrl, isGlobalNoindex, siteUrl } from './site';
 import { cld, isPlaceholderImage } from './cloudinary';
 import type { Post } from './content';
@@ -28,7 +28,8 @@ const ogImage = (img: { url: string; alt: string }) => ({
 export function pageMetadata(input: PageMetaInput): Metadata {
   const canonical = absoluteUrl(input.path);
   const fullTitle = input.absoluteTitle ? input.title : `${input.title} | ${SITE_NAME}`;
-  const images = input.image ? [ogImage(input.image)] : undefined;
+  // Every page gets a preview image: its own, or the site-wide collage.
+  const images = input.image ? [ogImage(input.image)] : [{ ...DEFAULT_SOCIAL_IMAGE }];
   const noindex = isGlobalNoindex || input.noindex;
   return {
     title: input.absoluteTitle ? { absolute: input.title } : input.title,

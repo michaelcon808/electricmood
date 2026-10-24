@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
+import rehypeCallouts from '@/lib/rehype-callouts';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { AFFILIATE_MARKER, stripLeadingH1, stripOwnToc } from '@/lib/markdown';
 import { getAllGeneratedPaths } from '@/lib/content';
@@ -97,7 +98,7 @@ function mdxComponents(post: MdxSource) {
 
     table({ children }: React.TableHTMLAttributes<HTMLTableElement>) {
       return (
-        <div className="overflow-x-auto">
+        <div className="post-table not-prose" role="region" aria-label="Table (scroll sideways if it does not fit)" tabIndex={0}>
           <table>{children}</table>
         </div>
       );
@@ -132,6 +133,7 @@ export async function MdxContent({ post }: { post: MdxSource }) {
             remarkPlugins: [remarkGfm],
             rehypePlugins: [
               rehypeSlug,
+              rehypeCallouts,
               [
                 rehypeAutolinkHeadings,
                 {
