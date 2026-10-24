@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
+import { AFFILIATE_TOKEN, isAmazonUrl, resolveAffiliate } from '@/lib/affiliates';
 import rehypeCallouts from '@/lib/rehype-callouts';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { AFFILIATE_MARKER, stripLeadingH1, stripOwnToc } from '@/lib/markdown';
@@ -57,6 +58,12 @@ function mdxComponents(post: MdxSource) {
           </a>
         );
       }
+      // AFFILIATE_LINK_… placeholders resolve to their Amazon link; an unknown one shows as plain text, never a broken link.
+      if (AFFILIATE_TOKEN.test(href)) {
+        const resolved = resolveAffiliate(href);
+        return resolved ? <AffiliateLink href={resolved}>{children}</AffiliateLink> : <>{children}</>;
+      }
+      if (isAmazonUrl(href)) return <AffiliateLink href={href}>{children}</AffiliateLink>;
       const marked = href.endsWith(AFFILIATE_MARKER);
       const url = marked ? href.slice(0, -AFFILIATE_MARKER.length) : href;
       if (marked || affiliateUrls.has(normalize(url))) return <AffiliateLink href={url}>{children}</AffiliateLink>;

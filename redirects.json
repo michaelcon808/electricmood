@@ -13,47 +13,47 @@
   },
   {
     "source": "/presentation",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/buy",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/what",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/why",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/benefits",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/applications",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/engine_architecture",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/engine_computer_code",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/engine_electronics",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/EME203_introduction",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/eme203_introduction",
-    "destination": "/electric-scooters/"
+    "destination": "/"
   },
   {
     "source": "/who",
