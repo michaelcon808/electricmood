@@ -50,7 +50,7 @@ export function PostCard({ post, priority = false }: { post: PostSummary; priori
 
 export function PostGrid({ posts, priorityFirst = false }: { posts: PostSummary[]; priorityFirst?: boolean }) {
   if (posts.length === 0) {
-    return <p className="card p-8 text-center text-neutral-500">No articles yet — check back soon.</p>;
+    return <p className="card p-8 text-center text-neutral-500">No articles yet. Check back soon.</p>;
   }
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -33,7 +33,7 @@ export default function BatteryLifespanCalculator() {
       <ResultsPanel valid={!!r}>
         {r && (
           <>
-            <ResultCard label="Expected battery life" value={Number.isFinite(r.years) ? `${fmt(r.years, 1)} years` : '—'} sub={r.limitedBy === 'age' ? 'limited by age, not use' : `about ${fmt(r.effectiveCycles)} usable cycles`} />
+            <ResultCard label="Expected battery life" value={Number.isFinite(r.years) ? `${fmt(r.years, 1)} years` : 'n/a'} sub={r.limitedBy === 'age' ? 'limited by age, not use' : `about ${fmt(r.effectiveCycles)} usable cycles`} />
             <ResultCard label="Full charges per year" value={fmt(r.cyclesPerYear)} sub="equivalent full cycles" />
             <ResultCard label="Distance over its life" value={`${fmt(per(r.lifetimeKm))} ${d}`} />
             <ResultCard label="Battery cost" value={`$${fmt(r.costPerYear)} per year`} sub={`$${fmt(r.costPer1000Km, 2)} per 1,000 km`} />

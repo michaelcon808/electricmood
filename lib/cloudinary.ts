@@ -21,6 +21,8 @@ export function cld(src: string, opts: { width?: number; height?: number; crop?:
   if (opts.width) parts.push(`w_${Math.round(opts.width)}`);
   if (opts.height) parts.push(`h_${Math.round(opts.height)}`);
   if (opts.width || opts.height) parts.push(`c_${opts.crop ?? 'limit'}`);
+  // A fill crop keeps the most important part of the photo (people, the vehicle) in frame.
+  if (opts.crop === 'fill') parts.push('g_auto');
   const transform = parts.join(',');
 
   if (isPlaceholderImage(src)) return ''; // callers hide the image; never throw for a not-yet-uploaded cover
@@ -34,11 +36,11 @@ export function cld(src: string, opts: { width?: number; height?: number; crop?:
 
 const WIDTHS = [320, 480, 640, 768, 960, 1200, 1600, 2000];
 
-/** srcset for a responsive image, capped at 2× the rendered width. */
-export function cldSrcSet(src: string, maxWidth: number): string | undefined {
+/** srcset for a responsive image, capped at 2× the rendered width. Pass `ratio` (height ÷ width) for a fill crop. */
+export function cldSrcSet(src: string, maxWidth: number, ratio?: number): string | undefined {
   if (isPlaceholderImage(src)) return undefined;
   if (!isCloudinaryUrl(src) && (/^(https?:)?\/\//.test(src) || src.startsWith('/'))) return undefined;
   const widths = WIDTHS.filter((w) => w <= maxWidth * 2);
   if (!widths.length) return undefined;
-  return widths.map((w) => `${cld(src, { width: w })} ${w}w`).join(', ');
+  return widths.map((w) => `${cld(src, ratio ? { width: w, height: w * ratio, crop: 'fill' } : { width: w })} ${w}w`).join(', ');
 }

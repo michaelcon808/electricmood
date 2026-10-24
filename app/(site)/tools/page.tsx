@@ -20,7 +20,7 @@ export default function ToolsPage() {
       <PageHeader
         eyebrow="Shared across all silos"
         title="Tools"
-        description="Quick, private calculators — everything runs in your browser and nothing is sent anywhere."
+        description="Quick, private calculators. Everything runs in your browser and nothing is sent anywhere."
       />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {TOOLS.map((t) => (

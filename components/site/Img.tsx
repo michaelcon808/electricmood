@@ -14,10 +14,12 @@ export type ImgProps = {
   priority?: boolean;
   className?: string;
   caption?: string;
+  /** Crop to exactly width × height on Cloudinary (sharp at any shape), instead of scaling the original. */
+  fill?: boolean;
 };
 
 /** Static, Cloudinary-optimised <img>: f_auto,q_auto, responsive srcset, lazy by default. Zero client JS. */
-export function Img({ src, alt, width, height, sizes, priority = false, className, caption }: ImgProps) {
+export function Img({ src, alt, width, height, sizes, priority = false, className, caption, fill = false }: ImgProps) {
   // Placeholder cover (e.g. "CLOUDINARY_URL_HERE"): show a neutral gradient, never a broken image.
   if (isPlaceholderImage(src)) {
     return (
@@ -31,8 +33,8 @@ export function Img({ src, alt, width, height, sizes, priority = false, classNam
   const img = (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src={cld(src, { width })}
-      srcSet={cldSrcSet(src, width)}
+      src={fill ? cld(src, { width, height, crop: 'fill' }) : cld(src, { width })}
+      srcSet={cldSrcSet(src, width, fill ? height / width : undefined)}
       sizes={sizes ?? `(min-width: ${width}px) ${width}px, 100vw`}
       alt={alt}
       width={width}

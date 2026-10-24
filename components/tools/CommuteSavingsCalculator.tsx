@@ -50,7 +50,7 @@ export default function CommuteSavingsCalculator() {
             <ResultCard label="Saved per year" value={money(r.savingsYear)} sub={`${money(r.currentYear)} now vs ${money(r.rideYear)} on the ${ride === 'ebike' ? 'e-bike' : 'e-scooter'}`} />
             <ResultCard label="Pays for itself in" value={Number.isFinite(r.paybackMonths) ? `${fmt(r.paybackMonths)} months` : 'doesn’t pay back'} sub="purchase price ÷ monthly running saving" />
             <ResultCard label="Electricity per year" value={money(r.energyYear)} sub={`${fmt(units === 'imperial' ? r.yearlyKm / KM_PER_MILE : r.yearlyKm)} ${d} a year`} />
-            <ResultCard label="CO₂ avoided per year" value={mode === 'car' ? `${fmt(r.co2SavedKg)} kg` : '—'} sub={mode === 'car' ? 'vs an average petrol car' : 'not estimated for transit'} />
+            <ResultCard label="CO₂ avoided per year" value={mode === 'car' ? `${fmt(r.co2SavedKg)} kg` : 'n/a'} sub={mode === 'car' ? 'vs an average petrol car' : 'not estimated for transit'} />
           </>
         )}
       </ResultsPanel>
