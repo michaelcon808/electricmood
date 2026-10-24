@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { estimateCharging } from '@/lib/calculators';
+import { chargingCostOverTime, estimateCharging } from '@/lib/calculators';
 import { allPositive, fmt, NumberField, ResultCard, ResultsPanel } from './fields';
 
 function duration(hours: number) {
@@ -20,6 +20,7 @@ export default function ChargingCalculator() {
   const [price, setPrice] = useState(0.3);
   const [currency, setCurrency] = useState('$');
   const [whPerKm, setWhPerKm] = useState(12);
+  const [chargesPerWeek, setChargesPerWeek] = useState(3);
 
   const valid =
     allPositive(voltage, amphours, chargerAmps, efficiencyPct) &&
@@ -31,6 +32,7 @@ export default function ChargingCalculator() {
   const r = valid
     ? estimateCharging({ voltage, amphours, chargerAmps, startPct, targetPct, efficiency: efficiencyPct / 100, pricePerKwh: price, whPerKm: whPerKm > 0 ? whPerKm : undefined })
     : null;
+  const t = r && Number.isFinite(chargesPerWeek) && chargesPerWeek > 0 ? chargingCostOverTime(r.cost, chargesPerWeek) : null;
   const money = (n: number) => `${currency}${n < 1 ? n.toFixed(3) : n.toFixed(2)}`;
 
   return (
@@ -49,6 +51,7 @@ export default function ChargingCalculator() {
           </label>
           <input id="currency" className="input" maxLength={3} value={currency} onChange={(e) => setCurrency(e.target.value)} />
         </div>
+        <NumberField id="perweek" label="Charges per week" value={chargesPerWeek} onChange={setChargesPerWeek} min={0} max={21} step={0.5} hint="For your monthly and yearly cost" />
         <NumberField id="whkm" label="Your consumption (optional)" value={whPerKm} onChange={setWhPerKm} min={0} step={0.5} unit="Wh/km" hint="For cost per 100 km. See the range calculator." />
       </div>
 
@@ -58,6 +61,8 @@ export default function ChargingCalculator() {
             <ResultCard label="Charging time" value={duration(r.hours)} sub={`${startPct}% → ${targetPct}% with a ${fmt(r.chargerW)} W charger`} />
             <ResultCard label="Cost of this charge" value={money(r.cost)} sub={`${fmt(r.wallKwh, 3)} kWh from the wall`} />
             <ResultCard label="Cost of a full charge" value={money(r.fullChargeCost)} sub={`${fmt(r.wh)} Wh battery`} />
+            {t && <ResultCard label="Cost per month" value={money(t.perMonth)} sub={`${chargesPerWeek} charges a week (${startPct}% → ${targetPct}%)`} />}
+            {t && <ResultCard label="Cost per year" value={money(t.perYear)} sub={`${money(t.perWeek)} a week`} />}
             {r.costPer100Km !== null && <ResultCard label="Cost per 100 km" value={money(r.costPer100Km)} sub={`at ${whPerKm} Wh/km`} />}
           </>
         )}

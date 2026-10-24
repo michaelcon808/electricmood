@@ -121,11 +121,11 @@ export function ToolCta({ slug }: { slug: string }) {
   );
 }
 
-/** "Tools and Learn" strip on silo hubs — the shared group every silo links to. */
+/** "Tools" strip on silo hubs — the shared group every silo links to. */
 export function SharedStrip() {
   return (
-    <section aria-label="Tools and Learn" className="mt-14">
-      <h2 className="mb-4 text-xl font-bold">Tools and Learn</h2>
+    <section aria-label="Tools" className="mt-14">
+      <h2 className="mb-4 text-xl font-bold">Tools</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         {shared.map((s) => (
           <Link key={s.slug} href={s.path} className={`card p-5 transition-colors ${ACCENT.shared.soft} ${ACCENT.shared.hover}`}>

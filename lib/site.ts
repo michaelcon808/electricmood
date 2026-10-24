@@ -28,8 +28,6 @@ export const paths = {
   post: (slug: string) => `/${slug}/`,
   tools: '/tools/',
   tool: (slug: string) => `/tools/${slug}/`,
-  learn: '/learn/',
-  learnPage: (slug: string) => `/learn/${slug}/`,
   search: '/search/',
 };
 

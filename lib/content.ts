@@ -1,15 +1,14 @@
-// Build-time content loader. Reads /content/posts/*.mdx and /content/learn/*.mdx, validates frontmatter
+// Build-time content loader. Reads /content/posts/*.mdx, validates frontmatter
 // with zod (a bad file fails the build), and filters out drafts and future-dated items.
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { sections, silos } from '../config/site-structure';
-import { formatIssues, frontmatterSchema, learnSchema, type Frontmatter, type LearnFrontmatter } from './schema';
+import { formatIssues, frontmatterSchema, type Frontmatter } from './schema';
 import { extractFaqFromBody, extractToc, hasAffiliateContent, readingTimeMinutes, type TocItem } from './markdown';
 import { paths } from './site';
 
 export const POSTS_DIR = path.join(process.cwd(), 'content', 'posts');
-export const LEARN_DIR = path.join(process.cwd(), 'content', 'learn');
 
 export type Post = Frontmatter & {
   content: string;
@@ -28,16 +27,6 @@ export type Post = Frontmatter & {
 };
 
 export type PostSummary = Omit<Post, 'content' | 'toc'>;
-
-export type LearnPage = LearnFrontmatter & {
-  content: string;
-  file: string;
-  path: string;
-  readingTime: number;
-  toc: TocItem[];
-  dateISO: string;
-  updatedISO: string;
-};
 
 function readDir(dir: string) {
   if (!fs.existsSync(dir)) return [];
@@ -152,55 +141,14 @@ export function getFeaturedPosts(silo: string, limit = 3, section?: string): Pos
     .slice(0, limit);
 }
 
-/* ---------------- Learn ---------------- */
-
-export function loadAllLearnFiles(): LearnPage[] {
-  const errors: string[] = [];
-  const pages: LearnPage[] = [];
-  for (const { file, data, content } of readDir(LEARN_DIR)) {
-    const parsed = learnSchema.safeParse(data);
-    if (!parsed.success) {
-      errors.push(`content/learn/${file}:\n${formatIssues(parsed.error)}`);
-      continue;
-    }
-    const fm = parsed.data;
-    pages.push({
-      ...fm,
-      content,
-      file,
-      path: paths.learnPage(fm.slug),
-      readingTime: readingTimeMinutes(content),
-      toc: extractToc(content),
-      dateISO: fm.date.toISOString(),
-      updatedISO: (fm.updated ?? fm.date).toISOString(),
-    });
-  }
-  if (errors.length) throw new Error(`Invalid learn frontmatter:\n\n${errors.join('\n\n')}\n`);
-  const slugs = new Set<string>();
-  for (const p of pages) {
-    if (slugs.has(p.slug)) throw new Error(`Duplicate learn slug "${p.slug}" (content/learn/${p.file})`);
-    slugs.add(p.slug);
-  }
-  return pages;
-}
-
-export function getLearnPages(): LearnPage[] {
-  return loadAllLearnFiles()
-    .filter((p) => isPublished(p))
-    .sort((a, b) => b.date.getTime() - a.date.getTime());
-}
-
-export const getLearnPage = (slug: string) => getLearnPages().find((p) => p.slug === slug);
-
 /** Every URL the site generates (used by the build checks to validate breadcrumbs). */
 export function getAllGeneratedPaths(toolSlugs: string[], staticPaths: string[]): Set<string> {
-  const urls = new Set<string>([paths.home, paths.tools, paths.learn, paths.search, ...staticPaths]);
+  const urls = new Set<string>([paths.home, paths.tools, paths.search, ...staticPaths]);
   for (const silo of silos) {
     urls.add(paths.silo(silo.slug));
     for (const section of sections) urls.add(paths.section(silo.slug, section.slug));
   }
   for (const p of getPosts()) urls.add(p.path);
   for (const t of toolSlugs) urls.add(paths.tool(t));
-  for (const l of getLearnPages()) urls.add(l.path);
   return urls;
 }

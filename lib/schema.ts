@@ -101,25 +101,6 @@ export const frontmatterSchema = z
 
 export type Frontmatter = z.infer<typeof frontmatterSchema>;
 
-/** Learn articles (/learn/{slug}/) — shared across all silos, lighter schema. */
-export const learnSchema = z
-  .object({
-    title: z.string().trim().min(5).max(120),
-    slug,
-    description: z.string().trim().min(50).max(200),
-    date,
-    updated: date.optional(),
-    cover: cloudinaryImage.optional(),
-    coverAlt: z.string().trim().optional(),
-    draft: z.boolean().default(false),
-    author: z.string().trim().min(1).default(DEFAULT_AUTHOR),
-  })
-  .strict()
-  .superRefine((fm, ctx) => {
-    if (fm.cover && !fm.coverAlt) ctx.addIssue({ code: 'custom', path: ['coverAlt'], message: 'coverAlt is required when cover is set' });
-  });
-
-export type LearnFrontmatter = z.infer<typeof learnSchema>;
 
 export function formatIssues(error: z.ZodError): string {
   return error.issues.map((i) => `  - ${i.path.join('.') || '(root)'}: ${i.message}`).join('\n');

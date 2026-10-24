@@ -62,5 +62,13 @@
   {
     "source": "/legal_information",
     "destination": "/about/"
+  },
+  {
+    "source": "/learn/",
+    "destination": "/tools/"
+  },
+  {
+    "source": "/learn/*",
+    "destination": "/tools/"
   }
 ]

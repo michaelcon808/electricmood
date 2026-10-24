@@ -10,7 +10,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import { formatIssues, frontmatterSchema, learnSchema } from '../lib/schema';
+import { formatIssues, frontmatterSchema } from '../lib/schema';
 import { TOOLS } from '../lib/tools';
 import { contentIssues } from '../lib/post-checks';
 import { isPlaceholderImage } from '../lib/cloudinary';
@@ -19,11 +19,11 @@ const ROOT = process.cwd();
 let errorCount = 0;
 let warnCount = 0;
 
-function checkDir(dirName: 'posts' | 'learn') {
+function checkDir(dirName: 'posts') {
   const dir = path.join(ROOT, 'content', dirName);
   const files = fs.existsSync(dir) ? fs.readdirSync(dir).filter((f) => /\.mdx?$/.test(f)) : [];
   const keys = new Map<string, string>();
-  const schema = dirName === 'posts' ? frontmatterSchema : learnSchema;
+  const schema = frontmatterSchema;
 
   for (const file of files) {
     const rel = `content/${dirName}/${file}`;
@@ -66,7 +66,6 @@ function checkDir(dirName: 'posts' | 'learn') {
 }
 
 const posts = checkDir('posts');
-const learn = checkDir('learn');
 
 // Every tool in the registry needs its own page folder (keeps each tool's JS on its own page).
 for (const tool of TOOLS) {
@@ -77,5 +76,5 @@ for (const tool of TOOLS) {
   }
 }
 
-console.log(`\nChecked ${posts} post(s), ${learn} learn page(s) and ${TOOLS.length} tool(s): ${errorCount} error(s), ${warnCount} draft warning(s).`);
+console.log(`\nChecked ${posts} post(s) and ${TOOLS.length} tool(s): ${errorCount} error(s), ${warnCount} draft warning(s).`);
 if (errorCount) process.exit(1);
