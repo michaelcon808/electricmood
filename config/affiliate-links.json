@@ -1,0 +1,820 @@
+{
+  "tag": "electricmoo0e-20",
+  "links": {
+    "AFFILIATE_LINK_ABUS_GRANIT_SUPER_EXTREME_2500": {
+      "product": "Abus Granit Super Extreme 2500",
+      "search": "https://www.amazon.com/s?k=Abus+Granit+Super+Extreme+2500&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ACEDECK": {
+      "product": "Acedeck electric skateboard",
+      "search": "https://www.amazon.com/s?k=Acedeck+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ACEDECK_NOMAD_N1": {
+      "product": "Acedeck Nomad N1",
+      "search": "https://www.amazon.com/s?k=Acedeck+Nomad+N1&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ACEDECK_NYX_Z3": {
+      "product": "Acedeck Nyx Z3",
+      "search": "https://www.amazon.com/s?k=Acedeck+Nyx+Z3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ACEDECK_STELLA_BLIZZARD": {
+      "product": "Acedeck Stella Blizzard",
+      "search": "https://www.amazon.com/s?k=Acedeck+Stella+Blizzard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_APOLLO_CITY_STELLAR": {
+      "product": "Apollo City electric scooter",
+      "search": "https://www.amazon.com/s?k=Apollo+City+electric+scooter&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_APOLLO_GO": {
+      "product": "Apollo Go",
+      "search": "https://www.amazon.com/s?k=Apollo+Go&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON": {
+      "product": "Aventon electric bike",
+      "search": "https://www.amazon.com/s?k=Aventon+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_AVENTURE_3": {
+      "product": "Aventon Aventure 3",
+      "search": "https://www.amazon.com/s?k=Aventon+Aventure+3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_LEVEL_3": {
+      "product": "Aventon Level 3",
+      "search": "https://www.amazon.com/s?k=Aventon+Level+3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_LEVEL_4_ADV": {
+      "product": "Aventon Level 4 ADV",
+      "search": "https://www.amazon.com/s?k=Aventon+Level+4+ADV&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_LEVEL_4_REC": {
+      "product": "Aventon Level 4 REC",
+      "search": "https://www.amazon.com/s?k=Aventon+Level+4+REC&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_RAMBLAS_ADV": {
+      "product": "Aventon Ramblas ADV",
+      "search": "https://www.amazon.com/s?k=Aventon+Ramblas+ADV&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_SINCH_2_5": {
+      "product": "Aventon Sinch 2.5",
+      "search": "https://www.amazon.com/s?k=Aventon+Sinch+2.5&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_AVENTON_SOLTERA_3_ADV": {
+      "product": "Aventon Soltera 3 ADV",
+      "search": "https://www.amazon.com/s?k=Aventon+Soltera+3+ADV&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BACKFIRE": {
+      "product": "Backfire electric skateboard",
+      "search": "https://www.amazon.com/s?k=Backfire+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BACKFIRE_ZEALOT_X2": {
+      "product": "Backfire Zealot X2",
+      "search": "https://www.amazon.com/s?k=Backfire+Zealot+X2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BAFANG_BBSHD": {
+      "product": "Bafang BBSHD",
+      "search": "https://www.amazon.com/s?k=Bafang+BBSHD&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BAFANG_FRONT_HUB": {
+      "product": "Bafang front hub kit",
+      "search": "https://www.amazon.com/s?k=Bafang+front+hub+kit&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BAKCOU_MULE": {
+      "product": "Bakcou Mule",
+      "search": "https://www.amazon.com/s?k=Bakcou+Mule&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BBB_BARBANK_BMP_201": {
+      "product": "BBB Barbank BMP-201",
+      "search": "https://www.amazon.com/s?k=BBB+Barbank+BMP-201&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_BROMPTON_ELECTRIC": {
+      "product": "Brompton Electric",
+      "search": "https://www.amazon.com/s?k=Brompton+Electric&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_CYCPLUS_AS2_PRO": {
+      "product": "Cycplus AS2 Pro",
+      "search": "https://www.amazon.com/s?k=Cycplus+AS2+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_DEERFUN_DETACHABLE": {
+      "product": "Deerfun Detachable",
+      "search": "https://www.amazon.com/s?k=Deerfun+Detachable&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_DUALTRON_X_LIMITED": {
+      "product": "Dualtron X Limited",
+      "search": "https://www.amazon.com/s?k=Dualtron+X+Limited&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_EMOVE_CRUISER_S": {
+      "product": "EMOVE Cruiser S",
+      "search": "https://www.amazon.com/s?k=EMOVE+Cruiser+S&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_EMOVE_ROADRUNNER_RX7": {
+      "product": "EMOVE RoadRunner RX7",
+      "search": "https://www.amazon.com/s?k=EMOVE+RoadRunner+RX7&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_EMOVE_ROADRUNNER_V3": {
+      "product": "EMOVE RoadRunner V3",
+      "search": "https://www.amazon.com/s?k=EMOVE+RoadRunner+V3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ETWOW_GT": {
+      "product": "E-TWOW GT",
+      "search": "https://www.amazon.com/s?k=E-TWOW+GT&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_EXWAY": {
+      "product": "Exway electric skateboard",
+      "search": "https://www.amazon.com/s?k=Exway+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_EXWAY_ATLAS_PRO": {
+      "product": "Exway Atlas Pro",
+      "search": "https://www.amazon.com/s?k=Exway+Atlas+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_FLUID_CITYRIDER": {
+      "product": "fluid CityRider",
+      "search": "https://www.amazon.com/s?k=fluid+CityRider&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_A5": {
+      "product": "GOTRAX A5",
+      "search": "https://www.amazon.com/s?k=GOTRAX+A5&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_FLEX": {
+      "product": "GOTRAX Flex",
+      "search": "https://www.amazon.com/s?k=GOTRAX+Flex&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_G2_PLUS": {
+      "product": "GOTRAX G2 Plus",
+      "search": "https://www.amazon.com/s?k=GOTRAX+G2+Plus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_G3": {
+      "product": "GoTrax G3",
+      "search": "https://www.amazon.com/s?k=GoTrax+G3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_G3_PLUS": {
+      "product": "GOTRAX G3 Plus",
+      "search": "https://www.amazon.com/s?k=GOTRAX+G3+Plus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_GKS_PRO": {
+      "product": "GOTRAX GKS Pro",
+      "search": "https://www.amazon.com/s?k=GOTRAX+GKS+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_GOTRAX_XR_ULTRA": {
+      "product": "GoTrax XR Ultra",
+      "search": "https://www.amazon.com/s?k=GoTrax+XR+Ultra&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_HEYBIKE_RANGER_3_PRO": {
+      "product": "Heybike Ranger 3 Pro",
+      "search": "https://www.amazon.com/s?k=Heybike+Ranger+3+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_HEYBIKE_VENUS": {
+      "product": "HeyBike Venus",
+      "search": "https://www.amazon.com/s?k=HeyBike+Venus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_HIBOY_S2": {
+      "product": "Hiboy S2",
+      "search": "https://www.amazon.com/s?k=Hiboy+S2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_HOVER1_ALPHA_2": {
+      "product": "Hover-1 Alpha 2.0",
+      "search": "https://www.amazon.com/s?k=Hover-1+Alpha+2.0&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_HOVER1_JOURNEY_2": {
+      "product": "Hover-1 Journey 2.0",
+      "search": "https://www.amazon.com/s?k=Hover-1+Journey+2.0&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_INMOTION_CLIMBER": {
+      "product": "Inmotion Climber",
+      "search": "https://www.amazon.com/s?k=Inmotion+Climber&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_INMOTION_RS": {
+      "product": "Inmotion RS",
+      "search": "https://www.amazon.com/s?k=Inmotion+RS&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ISINWHEEL_H7": {
+      "product": "isinwheel H7",
+      "search": "https://www.amazon.com/s?k=isinwheel+H7&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_JACKRABBIT_XG_PRO": {
+      "product": "JackRabbit XG Pro",
+      "search": "https://www.amazon.com/s?k=JackRabbit+XG+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KAABO_KING_GTR": {
+      "product": "Kaabo King GTR",
+      "search": "https://www.amazon.com/s?k=Kaabo+King+GTR&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KAABO_MANTIS_KING_GT": {
+      "product": "Kaabo Mantis King GT",
+      "search": "https://www.amazon.com/s?k=Kaabo+Mantis+King+GT&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KAABO_WOLF_KING_GT": {
+      "product": "Kaabo Wolf King GT",
+      "search": "https://www.amazon.com/s?k=Kaabo+Wolf+King+GT&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KAABO_WOLF_WARRIOR_X": {
+      "product": "Kaabo Wolf Warrior X",
+      "search": "https://www.amazon.com/s?k=Kaabo+Wolf+Warrior+X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KNOG_BLINDER_1300": {
+      "product": "Knog Blinder 1300",
+      "search": "https://www.amazon.com/s?k=Knog+Blinder+1300&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KRYPTONITE_KRYPTOLOK": {
+      "product": "Kryptonite KryptoLok",
+      "search": "https://www.amazon.com/s?k=Kryptonite+KryptoLok&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KTM_MACINA_GRAN": {
+      "product": "KTM Macina Gran",
+      "search": "https://www.amazon.com/s?k=KTM+Macina+Gran&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KTM_MACINA_KAPOHO": {
+      "product": "KTM Macina Kapoho",
+      "search": "https://www.amazon.com/s?k=KTM+Macina+Kapoho&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_KTM_MACINA_PROWLER": {
+      "product": "KTM Macina Prowler",
+      "search": "https://www.amazon.com/s?k=KTM+Macina+Prowler&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC": {
+      "product": "Lectric electric bike",
+      "search": "https://www.amazon.com/s?k=Lectric+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC_XP4": {
+      "product": "Lectric XP4",
+      "search": "https://www.amazon.com/s?k=Lectric+XP4&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC_XP4_750": {
+      "product": "Lectric XP4 750",
+      "search": "https://www.amazon.com/s?k=Lectric+XP4+750&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC_XPEAK2": {
+      "product": "Lectric XPeak2",
+      "search": "https://www.amazon.com/s?k=Lectric+XPeak2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC_XPRESS2": {
+      "product": "Lectric XPress 2",
+      "search": "https://www.amazon.com/s?k=Lectric+XPress+2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC_XPRESS_2": {
+      "product": "Lectric XPress 2",
+      "search": "https://www.amazon.com/s?k=Lectric+XPress+2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LECTRIC_XP_LITE_2": {
+      "product": "Lectric XP Lite 2",
+      "search": "https://www.amazon.com/s?k=Lectric+XP+Lite+2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LEZYNE_POCKET_DRIVE_HV": {
+      "product": "Lezyne Pocket Drive HV",
+      "search": "https://www.amazon.com/s?k=Lezyne+Pocket+Drive+HV&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LEZYNE_STRIP_DRIVE_PRO_400": {
+      "product": "Lezyne Strip Drive Pro 400+",
+      "search": "https://www.amazon.com/s?k=Lezyne+Strip+Drive+Pro+400%2B&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LINNPOWER_VIPER": {
+      "product": "Linnpower Viper",
+      "search": "https://www.amazon.com/s?k=Linnpower+Viper&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LISEN_BIKE_PHONE_HOLDER": {
+      "product": "Lisen Bike Phone Holder",
+      "search": "https://www.amazon.com/s?k=Lisen+Bike+Phone+Holder&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_LITELOK_X1": {
+      "product": "Litelok X1",
+      "search": "https://www.amazon.com/s?k=Litelok+X1&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MACFOX_X1S": {
+      "product": "Macfox X1S",
+      "search": "https://www.amazon.com/s?k=Macfox+X1S&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MACFOX_X1S_DUAL": {
+      "product": "Macfox X1S dual battery",
+      "search": "https://www.amazon.com/s?k=Macfox+X1S+dual+battery&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MAXFIND_CYBER_MAX_X": {
+      "product": "Maxfind Cyber Max X",
+      "search": "https://www.amazon.com/s?k=Maxfind+Cyber+Max+X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MAXFIND_CYBER_MINI": {
+      "product": "Maxfind Cyber Mini",
+      "search": "https://www.amazon.com/s?k=Maxfind+Cyber+Mini&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MEEPO": {
+      "product": "Meepo electric skateboard",
+      "search": "https://www.amazon.com/s?k=Meepo+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MEEPO_MINI_3_MAX": {
+      "product": "Meepo Mini 3 Max",
+      "search": "https://www.amazon.com/s?k=Meepo+Mini+3+Max&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MEEPO_V5": {
+      "product": "Meepo V5",
+      "search": "https://www.amazon.com/s?k=Meepo+V5&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MEEPO_VOYAGER_X": {
+      "product": "Meepo Voyager X",
+      "search": "https://www.amazon.com/s?k=Meepo+Voyager+X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_MONARC_TRACER": {
+      "product": "Monarc Tracer",
+      "search": "https://www.amazon.com/s?k=Monarc+Tracer&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NAMI_BURN_E_2_MAX": {
+      "product": "Nami Burn-E 2 Max",
+      "search": "https://www.amazon.com/s?k=Nami+Burn-E+2+Max&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NAVEE_GT3_PRO": {
+      "product": "Navee GT3 Pro",
+      "search": "https://www.amazon.com/s?k=Navee+GT3+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NAVEE_ST3_PRO": {
+      "product": "Navee ST3 Pro",
+      "search": "https://www.amazon.com/s?k=Navee+ST3+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NAVEE_UT5_ULTRA_X": {
+      "product": "NAVEE UT5 Ultra X",
+      "search": "https://www.amazon.com/s?k=NAVEE+UT5+Ultra+X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NITERIDER_SWIFT_500": {
+      "product": "NiteRider Swift 500",
+      "search": "https://www.amazon.com/s?k=NiteRider+Swift+500&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NIU_KQI2_PRO": {
+      "product": "NIU KQi2 Pro",
+      "search": "https://www.amazon.com/s?k=NIU+KQi2+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NIU_KQI_100F": {
+      "product": "NIU KQi 100F",
+      "search": "https://www.amazon.com/s?k=NIU+KQi+100F&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NIU_KQI_100P": {
+      "product": "NIU KQi 100P",
+      "search": "https://www.amazon.com/s?k=NIU+KQi+100P&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NIU_KQI_300X": {
+      "product": "NIU KQi 300X",
+      "search": "https://www.amazon.com/s?k=NIU+KQi+300X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_NIU_KQI_AIR": {
+      "product": "NIU KQi Air",
+      "search": "https://www.amazon.com/s?k=NIU+KQi+Air&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_OMW": {
+      "product": "OMW electric skateboard",
+      "search": "https://www.amazon.com/s?k=OMW+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_OMW_LANCER": {
+      "product": "OMW Lancer",
+      "search": "https://www.amazon.com/s?k=OMW+Lancer&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL": {
+      "product": "Onewheel electric skateboard",
+      "search": "https://www.amazon.com/s?k=Onewheel+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_GT": {
+      "product": "Onewheel GT",
+      "search": "https://www.amazon.com/s?k=Onewheel+GT&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_GT_S_SERIES": {
+      "product": "Onewheel GT S-Series",
+      "search": "https://www.amazon.com/s?k=Onewheel+GT+S-Series&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_OFFICIAL": {
+      "product": "Onewheel electric skateboard",
+      "search": "https://www.amazon.com/s?k=Onewheel+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_PINT": {
+      "product": "Onewheel Pint",
+      "search": "https://www.amazon.com/s?k=Onewheel+Pint&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_PINT_S": {
+      "product": "Onewheel Pint S",
+      "search": "https://www.amazon.com/s?k=Onewheel+Pint+S&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_PINT_X": {
+      "product": "Onewheel Pint X",
+      "search": "https://www.amazon.com/s?k=Onewheel+Pint+X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_RALLY_XL": {
+      "product": "Onewheel GT S-Series Rally XL",
+      "search": "https://www.amazon.com/s?k=Onewheel+GT+S-Series+Rally+XL&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_ONEWHEEL_XR_CLASSIC": {
+      "product": "Onewheel XR Classic",
+      "search": "https://www.amazon.com/s?k=Onewheel+XR+Classic&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_PEAK_DESIGN_UNIVERSAL_BAR_MOUNT": {
+      "product": "Peak Design Universal Bar Mount",
+      "search": "https://www.amazon.com/s?k=Peak+Design+Universal+Bar+Mount&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_PRESTACYCLE_PRESTAFLATOR_GO": {
+      "product": "Prestacycle Prestaflator Go",
+      "search": "https://www.amazon.com/s?k=Prestacycle+Prestaflator+Go&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_PRIORITY_CURRENT_PLUS": {
+      "product": "Priority Current Plus electric bike",
+      "search": "https://www.amazon.com/s?k=Priority+Current+Plus+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_QUIETKAT_APEX_PRO": {
+      "product": "QuietKat Apex Pro",
+      "search": "https://www.amazon.com/s?k=QuietKat+Apex+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RAMBO_REBEL": {
+      "product": "Rambo Rebel 1000W",
+      "search": "https://www.amazon.com/s?k=Rambo+Rebel+1000W&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RAZOR_E100": {
+      "product": "Razor E100",
+      "search": "https://www.amazon.com/s?k=Razor+E100&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RAZOR_E300": {
+      "product": "Razor E300",
+      "search": "https://www.amazon.com/s?k=Razor+E300&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RIDE1UP": {
+      "product": "Ride1Up electric bike",
+      "search": "https://www.amazon.com/s?k=Ride1Up+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RIDE1UP_PORTOLA": {
+      "product": "Ride1Up Portola",
+      "search": "https://www.amazon.com/s?k=Ride1Up+Portola&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RIDE1UP_REVV_1": {
+      "product": "Ride1Up Revv 1",
+      "search": "https://www.amazon.com/s?k=Ride1Up+Revv+1&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RIDE1UP_ROADSTER_V3": {
+      "product": "Ride1Up Roadster V3",
+      "search": "https://www.amazon.com/s?k=Ride1Up+Roadster+V3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_RIDE1UP_VORSA": {
+      "product": "Ride1Up Vorsa",
+      "search": "https://www.amazon.com/s?k=Ride1Up+Vorsa&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SCHWINN_AIR_CENTER_PLUS": {
+      "product": "Schwinn Air Center Plus",
+      "search": "https://www.amazon.com/s?k=Schwinn+Air+Center+Plus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY": {
+      "product": "Segway electric bike",
+      "search": "https://www.amazon.com/s?k=Segway+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_E2_PLUS_II": {
+      "product": "Segway Ninebot E2 Plus II",
+      "search": "https://www.amazon.com/s?k=Segway+Ninebot+E2+Plus+II&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_E3_PRO": {
+      "product": "Segway Ninebot E3 Pro",
+      "search": "https://www.amazon.com/s?k=Segway+Ninebot+E3+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_GT3_PRO": {
+      "product": "Segway GT3 Pro",
+      "search": "https://www.amazon.com/s?k=Segway+GT3+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_MAX_G3": {
+      "product": "Segway Ninebot Max G3",
+      "search": "https://www.amazon.com/s?k=Segway+Ninebot+Max+G3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_MAX_G3_PLUS": {
+      "product": "Segway Max G3 Plus",
+      "search": "https://www.amazon.com/s?k=Segway+Max+G3+Plus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_MYON": {
+      "product": "Segway Myon",
+      "search": "https://www.amazon.com/s?k=Segway+Myon&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_XAFARI": {
+      "product": "Segway Xafari",
+      "search": "https://www.amazon.com/s?k=Segway+Xafari&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SEGWAY_ZING_E10": {
+      "product": "Segway Ninebot Zing E10",
+      "search": "https://www.amazon.com/s?k=Segway+Ninebot+Zing+E10&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SIGMA_BUSTER_RL_150": {
+      "product": "Sigma Buster RL 150",
+      "search": "https://www.amazon.com/s?k=Sigma+Buster+RL+150&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SKARPER_DISKDRIVE": {
+      "product": "Skarper DiskDrive",
+      "search": "https://www.amazon.com/s?k=Skarper+DiskDrive&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SLIME_10004_SEALANT": {
+      "product": "Slime 10004 tire sealant",
+      "search": "https://www.amazon.com/s?k=Slime+10004+tire+sealant&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SOLAR_HYPERION_RST": {
+      "product": "Solar Hyperion RST",
+      "search": "https://www.amazon.com/s?k=Solar+Hyperion+RST&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SPECIALIZED": {
+      "product": "Specialized electric bike",
+      "search": "https://www.amazon.com/s?k=Specialized+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SPECIALIZED_AIR_TOOL_MTB": {
+      "product": "Specialized Air Tool MTB",
+      "search": "https://www.amazon.com/s?k=Specialized+Air+Tool+MTB&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SPECIALIZED_LEVO_SL_2_COMP": {
+      "product": "Specialized Turbo Levo SL 2 Comp",
+      "search": "https://www.amazon.com/s?k=Specialized+Turbo+Levo+SL+2+Comp&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SPECIALIZED_LEVO_SL_2_COMP_ALLOY": {
+      "product": "Specialized Turbo Levo SL 2 Comp Alloy",
+      "search": "https://www.amazon.com/s?k=Specialized+Turbo+Levo+SL+2+Comp+Alloy&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SURRON_HYPER_BEE": {
+      "product": "Sur-Ron Hyper Bee",
+      "search": "https://www.amazon.com/s?k=Sur-Ron+Hyper+Bee&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SURRON_LIGHT_BEE_X": {
+      "product": "Sur-Ron Light Bee X",
+      "search": "https://www.amazon.com/s?k=Sur-Ron+Light+Bee+X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SURRON_STORM_BEE": {
+      "product": "Sur-Ron Storm Bee",
+      "search": "https://www.amazon.com/s?k=Sur-Ron+Storm+Bee&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SURRON_ULTRA_BEE_HP": {
+      "product": "Sur-Ron Ultra Bee HP",
+      "search": "https://www.amazon.com/s?k=Sur-Ron+Ultra+Bee+HP&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_SWYTCH_MAX_PLUS": {
+      "product": "Swytch Max+",
+      "search": "https://www.amazon.com/s?k=Swytch+Max%2B&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TEEWING_GT4": {
+      "product": "Teewing GT4",
+      "search": "https://www.amazon.com/s?k=Teewing+GT4&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TERN_VEKTRON_Q9": {
+      "product": "Tern Vektron Q9",
+      "search": "https://www.amazon.com/s?k=Tern+Vektron+Q9&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TONGSHENG_TSDZ2": {
+      "product": "TongSheng TSDZ2",
+      "search": "https://www.amazon.com/s?k=TongSheng+TSDZ2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TOPEAK_JOEBLOW_SPORT_III": {
+      "product": "Topeak JoeBlow Sport III",
+      "search": "https://www.amazon.com/s?k=Topeak+JoeBlow+Sport+III&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TREK": {
+      "product": "Trek electric bike",
+      "search": "https://www.amazon.com/s?k=Trek+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TREK_POWERFLY_6_GEN_5": {
+      "product": "Trek Powerfly+ 6 Gen 5",
+      "search": "https://www.amazon.com/s?k=Trek+Powerfly%2B+6+Gen+5&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TREK_POWERFLY_8_GEN_5": {
+      "product": "Trek Powerfly+ 8 Gen 5",
+      "search": "https://www.amazon.com/s?k=Trek+Powerfly%2B+8+Gen+5&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TURBOANT_X7_MAX": {
+      "product": "TurboAnt X7 Max",
+      "search": "https://www.amazon.com/s?k=TurboAnt+X7+Max&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TYNEE": {
+      "product": "Tynee electric skateboard",
+      "search": "https://www.amazon.com/s?k=Tynee+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TYNEE_MINI_3_PRO": {
+      "product": "Tynee Mini 3 Pro",
+      "search": "https://www.amazon.com/s?k=Tynee+Mini+3+Pro&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_TYNEE_MINI_3_SL": {
+      "product": "Tynee Mini 3 SL",
+      "search": "https://www.amazon.com/s?k=Tynee+Mini+3+SL&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_URTOPIA_CARBON_FOLD": {
+      "product": "Urtopia Carbon Fold",
+      "search": "https://www.amazon.com/s?k=Urtopia+Carbon+Fold&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC": {
+      "product": "Velotric electric bike",
+      "search": "https://www.amazon.com/s?k=Velotric+electric+bike&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_DISCOVER_1_PLUS": {
+      "product": "Velotric Discover 1 Plus",
+      "search": "https://www.amazon.com/s?k=Velotric+Discover+1+Plus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_DISCOVER_3": {
+      "product": "Velotric Discover 3",
+      "search": "https://www.amazon.com/s?k=Velotric+Discover+3&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_DISCOVER_M": {
+      "product": "Velotric Discover M",
+      "search": "https://www.amazon.com/s?k=Velotric+Discover+M&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_FOLD_1_PLUS": {
+      "product": "Velotric Fold 1 Plus",
+      "search": "https://www.amazon.com/s?k=Velotric+Fold+1+Plus&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_GOMAD": {
+      "product": "Velotric GoMad",
+      "search": "https://www.amazon.com/s?k=Velotric+GoMad&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_NOMAD_2X": {
+      "product": "Velotric Nomad 2X",
+      "search": "https://www.amazon.com/s?k=Velotric+Nomad+2X&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_SUMMIT_2": {
+      "product": "Velotric Summit 2",
+      "search": "https://www.amazon.com/s?k=Velotric+Summit+2&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VELOTRIC_TEMPO": {
+      "product": "Velotric Tempo",
+      "search": "https://www.amazon.com/s?k=Velotric+Tempo&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VMAX_VX2_HUB": {
+      "product": "VMAX VX2 Hub",
+      "search": "https://www.amazon.com/s?k=VMAX+VX2+Hub&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_VOILAMART_48V": {
+      "product": "Voilamart 48V rear wheel kit",
+      "search": "https://www.amazon.com/s?k=Voilamart+48V+rear+wheel+kit&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_WOWGO": {
+      "product": "WowGo electric skateboard",
+      "search": "https://www.amazon.com/s?k=WowGo+electric+skateboard&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_WOWGO_2S_MAX": {
+      "product": "WowGo 2S Max",
+      "search": "https://www.amazon.com/s?k=WowGo+2S+Max&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_WOWGO_PIONEER_X5": {
+      "product": "WowGo Pioneer X5",
+      "search": "https://www.amazon.com/s?k=WowGo+Pioneer+X5&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_YAMAHA_CROSSCORE_RC": {
+      "product": "Yamaha CrossCore RC",
+      "search": "https://www.amazon.com/s?k=Yamaha+CrossCore+RC&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_YAMAHA_WABASH_RT": {
+      "product": "Yamaha Wabash RT",
+      "search": "https://www.amazon.com/s?k=Yamaha+Wabash+RT&tag=electricmoo0e-20",
+      "exact": ""
+    },
+    "AFFILIATE_LINK_YAMAHA_YDX_MORO_07": {
+      "product": "Yamaha YDX-Moro 07",
+      "search": "https://www.amazon.com/s?k=Yamaha+YDX-Moro+07&tag=electricmoo0e-20",
+      "exact": ""
+    }
+  }
+}

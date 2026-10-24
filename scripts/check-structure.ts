@@ -25,6 +25,7 @@ import {
   type Post,
 } from '../lib/content';
 import { getBodyLinkedPosts, getInfoPostsFor, getMoneyPost, getParallelPosts, getPendingBodyLinks, getSiblingPicks } from '../lib/links';
+import { resolveAffiliate } from '../lib/affiliates';
 import { SLUG_ALIASES } from '../lib/aliases';
 import { referenceIssues } from '../lib/post-checks';
 import { paths, STATIC_PATHS } from '../lib/site';
@@ -76,6 +77,13 @@ for (const a of SLUG_ALIASES) {
   else if (allSlugs.has(a.old)) err(where, `"${a.old}" is also a real post, so the alias never applies; remove it`);
   else if (SLUG_ALIASES.some((b) => b.old === a.new)) err(where, `"${a.old}" points at "${a.new}", which is itself an alias (point it at the live post)`);
   else if (!pubKeys.has(a.new)) pendingNotes.push(`! ${where}: "${a.old}" points at "${a.new}", which is not a published post yet (links to it stay hidden)`);
+}
+
+// Every AFFILIATE_LINK_… placeholder in a post must have a link in config/affiliate-links.json.
+for (const p of all) {
+  for (const m of p.content.matchAll(/\]\((AFFILIATE_LINK_[A-Z0-9_]+)\)/g)) {
+    if (!resolveAffiliate(m[1])) err(p, `${m[1]} has no link in config/affiliate-links.json`);
+  }
 }
 
 // Visitor-facing labels must never use the internal term "Money" (breadcrumbs, menus, hubs, badges).
