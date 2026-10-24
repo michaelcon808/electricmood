@@ -8,8 +8,8 @@ import { Breadcrumbs } from '@/components/site/Breadcrumbs';
 import { PageHeader } from '@/components/site/PageHeader';
 
 export const metadata: Metadata = pageMetadata({
-  title: 'Free e-bike, e-scooter & power station calculators',
-  description: 'Free calculators for real-world e-bike and e-scooter range, charging time and cost, and portable power station sizing.',
+  title: 'Free e-bike, e-scooter & e-skateboard calculators',
+  description: 'Free e-bike, e-scooter and e-skateboard calculators: range, charging cost, battery Wh, airline battery limits, hill climbing, tyre pressure, frame size, weight limits, battery life, commute savings and a ride finder.',
   path: paths.tools,
 });
 

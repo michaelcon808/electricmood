@@ -17,7 +17,6 @@ import { buildBreadcrumbs, sections, silos } from '../config/site-structure';
 import { POST_TYPE_LABELS } from '../lib/constants';
 import {
   getAllGeneratedPaths,
-  getLearnPages,
   getPosts,
   getPostsForTool,
   getSectionPosts,
@@ -104,7 +103,6 @@ for (const silo of silos) {
 }
 for (const p of published) checkCrumbs(p.key, buildBreadcrumbs({ kind: 'post', silo: p.silo, section: p.section, title: p.title, slug: p.slug }));
 for (const t of TOOLS) checkCrumbs(`tool ${t.slug}`, buildBreadcrumbs({ kind: 'shared', shared: 'tools', item: { title: t.name, slug: t.slug } }));
-for (const l of getLearnPages()) checkCrumbs(`learn ${l.slug}`, buildBreadcrumbs({ kind: 'shared', shared: 'learn', item: { title: l.title, slug: l.slug } }));
 
 /* ---------------- Link counts (the same lists the pages render) ---------------- */
 

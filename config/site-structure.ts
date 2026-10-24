@@ -2,7 +2,7 @@
 // Edit this file to rename a silo/section or change a description. Menus, hubs, breadcrumbs,
 // sitemap and the frontmatter validation all read from here — nothing else hard-codes them.
 //
-//   Home → Silo hub → Section hub → Post        (+ shared: Tools, Learn)
+//   Home → Silo hub → Section hub → Post        (+ shared: Tools)
 import { z } from 'zod';
 import { paths } from '../lib/site';
 
@@ -52,7 +52,6 @@ const SECTIONS = [
 /** Pages that sit outside the silos; every silo hub links to them. */
 const SHARED = [
   { slug: 'tools', label: 'Tools', description: 'Calculators and finders', path: paths.tools },
-  { slug: 'learn', label: 'Learn', description: 'Battery safety, rules, travel', path: paths.learn },
 ] as const;
 
 export type SiloSlug = (typeof SILOS)[number]['slug'];
@@ -112,7 +111,7 @@ export type BreadcrumbTarget =
   | { kind: 'silo'; silo: string }
   | { kind: 'section'; silo: string; section: string }
   | { kind: 'post'; silo: string; section: string; title: string; slug: string }
-  | { kind: 'shared'; shared: 'tools' | 'learn'; item?: { title: string; slug: string } }
+  | { kind: 'shared'; shared: 'tools'; item?: { title: string; slug: string } }
   | { kind: 'page'; label: string; path: string };
 
 const HOME: Crumb = { label: 'Home', path: paths.home };
@@ -160,7 +159,7 @@ export function buildBreadcrumbs(t: BreadcrumbTarget): Crumb[] {
       if (t.item) {
         trail.push({
           label: t.item.title,
-          path: t.shared === 'tools' ? paths.tool(t.item.slug) : paths.learnPage(t.item.slug),
+          path: paths.tool(t.item.slug),
         });
       }
       return trail;
