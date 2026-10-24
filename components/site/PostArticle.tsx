@@ -46,14 +46,14 @@ export async function PostArticle({ post }: { post: Post }) {
       <JsonLd data={reviewJsonLd(post)} />
       <JsonLd data={faqJsonLd(faqs)} />
 
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-[60rem]">
         <Breadcrumbs items={buildBreadcrumbs({ kind: 'post', silo: post.silo, section: post.section, title: post.title, slug: post.slug })} />
         <BackToHub post={post} />
       </div>
 
       {/* Pagefind indexes only what's inside data-pagefind-body */}
       <div data-pagefind-body>
-        <header className="mx-auto mb-8 max-w-3xl">
+        <header className="mx-auto mb-8 max-w-[60rem]">
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm">
             <PostTypeBadge type={post.postType} />
             <Link
@@ -95,20 +95,21 @@ export async function PostArticle({ post }: { post: Post }) {
         </header>
 
         {hasCover && (
-          <div className="mx-auto mb-10 aspect-[16/9] max-w-5xl overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800">
+          <div className="mx-auto mb-10 aspect-[16/9] max-w-[60rem] overflow-hidden rounded-2xl bg-neutral-100 dark:bg-neutral-800">
+            {/* Same width as the article text (max-w-[60rem]) so the cover lines up with the content below it. */}
             <Img
               src={post.cover}
               alt={post.coverAlt}
-              width={1024}
-              height={576}
-              sizes="(min-width: 1024px) 1024px, 100vw"
+              width={960}
+              height={540}
+              sizes="(min-width: 1000px) 960px, 100vw"
               priority
               className="h-full w-full object-cover"
             />
           </div>
         )}
 
-        <div className="mx-auto max-w-3xl space-y-8">
+        <div className="mx-auto max-w-[60rem] space-y-8">
           {/* Info → Money: highlighted callout right after the intro */}
           {money && (
             <div data-pagefind-ignore>
@@ -158,7 +159,7 @@ export async function PostArticle({ post }: { post: Post }) {
       </div>
 
       {/* Automatic internal links */}
-      <div className="mx-auto mt-12 max-w-3xl space-y-6" data-pagefind-ignore>
+      <div className="mx-auto mt-12 max-w-[60rem] space-y-6" data-pagefind-ignore>
         {post.tool && <ToolCta slug={post.tool} />}
         <LearnMoreBox posts={infoPosts} />
         <SiblingsBox post={post} picks={siblings} />
