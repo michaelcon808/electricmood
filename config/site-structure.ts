@@ -31,8 +31,8 @@ const SILOS = [
 const SECTIONS = [
   {
     slug: 'reviews', // id used in frontmatter and in the hub URL (/electric-scooters/reviews/)
-    label: 'Reviews', // shown ONLY in the header menu and the breadcrumbs
-    contentLabel: 'Buying guides', // shown everywhere else (hub headings, post badges, "Back to…", "More in…")
+    label: 'Reviews', // header menu and breadcrumbs
+    contentLabel: 'Reviews', // everywhere else (hub headings, post badges, "Back to…", "More in…"); visitors only ever see "Reviews"
     description: 'Our top picks and comparisons to help you choose the right one.',
   },
   {
@@ -65,6 +65,8 @@ export type SharedItem = (typeof SHARED)[number];
 const slug = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'slugs use lowercase letters, numbers and hyphens');
 // Visitor-facing names (menus, hubs, breadcrumbs) must never use the internal SEO term "Money".
 const noMoney = (s: string) => !/\bmoney\b/i.test(s);
+// The Reviews section is never called "Buying guides" anywhere visitors can see.
+const noBuyingGuide = (s: string) => !/buying[ -]?guide/i.test(s);
 const node = z.object({
   slug,
   label: z.string().min(1).refine(noMoney, 'labels shown in menus and breadcrumbs must not contain the word "Money"'),
@@ -74,7 +76,7 @@ const unique = (items: readonly { slug: string }[]) => new Set(items.map((i) => 
 
 z.object({
   silos: z.array(node.extend({ shortLabel: z.string().min(1) })).min(1).refine(unique, 'duplicate silo slug'),
-  sections: z.array(node.extend({ contentLabel: z.string().min(1).refine(noMoney, 'must not contain the word "Money"') })).min(1).refine(unique, 'duplicate section slug'),
+  sections: z.array(node.extend({ contentLabel: z.string().min(1).refine(noMoney, 'must not contain the word "Money"').refine(noBuyingGuide, 'must not say "Buying guides" (use "Reviews")') })).min(1).refine(unique, 'duplicate section slug'),
   shared: z
     .array(node.extend({ path: z.string().startsWith('/').endsWith('/') }))
     .min(1)
@@ -99,7 +101,7 @@ export function getAllSiloSectionPairs(): { silo: Silo; section: Section }[] {
   return SILOS.flatMap((silo) => SECTIONS.map((section) => ({ silo, section })));
 }
 
-/** Section hub page heading, e.g. "Scooter buying guides", "E-bike guides". Uses the content name; the header menu and breadcrumbs use `label`. */
+/** Section hub page heading, e.g. "Scooter reviews", "E-bike guides". Uses the content name; the header menu and breadcrumbs use `label`. */
 export const sectionHeading = (silo: Silo, section: Section) => `${silo.shortLabel} ${section.contentLabel.toLowerCase()}`;
 
 /* ---------------- Breadcrumbs (labels always come from this config, never from URLs) ---------------- */

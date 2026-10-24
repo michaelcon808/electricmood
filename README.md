@@ -39,7 +39,7 @@ npm run preview    # serves out/ at http://localhost:3000
 ```
 Home
 ├── Electric scooters   (silo hub)  /electric-scooters/
-│   ├── Reviews         (section hub)  /electric-scooters/reviews/   (named "Reviews" in the header menu, breadcrumbs and URL; "Buying guides" inside pages)
+│   ├── Reviews         (section hub)  /electric-scooters/reviews/   (named "Reviews" everywhere visitors can see it: menu, breadcrumbs, URL, hub headings and badges)
 │   ├── Accessories                    /electric-scooters/accessories/
 │   └── Guides                         /electric-scooters/guides/
 ├── Electric bikes      (same three sections)

@@ -13,7 +13,7 @@ export default function AboutPage() {
     <StaticPage title="About ElectricMood" path="/about/">
       <p>
         ElectricMood helps riders choose, use and maintain electric personal transport. We start with e-scooters and e-bikes
-        and publish reviews, buying guides, head-to-head comparisons and practical explainers.
+        and publish reviews, head-to-head comparisons and practical explainers.
       </p>
       <aside
         id="earlier-company"
