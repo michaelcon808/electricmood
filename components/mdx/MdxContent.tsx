@@ -4,6 +4,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import { AFFILIATE_TOKEN, isAmazonUrl, resolveAffiliate } from '@/lib/affiliates';
 import rehypeCallouts from '@/lib/rehype-callouts';
+import rehypeProducts from '@/lib/rehype-products';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import { AFFILIATE_MARKER, stripLeadingH1, stripOwnToc } from '@/lib/markdown';
 import { getAllGeneratedPaths } from '@/lib/content';
@@ -141,6 +142,7 @@ export async function MdxContent({ post }: { post: MdxSource }) {
             rehypePlugins: [
               rehypeSlug,
               rehypeCallouts,
+              rehypeProducts,
               [
                 rehypeAutolinkHeadings,
                 {
