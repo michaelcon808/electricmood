@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run check-content && npm run check:structure && node scripts/generate-redirects.mjs",
+    "prebuild": "npm run check-content && npm run check:structure && node scripts/generate-redirects.mjs && node scripts/generate-lastmod.mjs",
     "build": "next build",
     "postbuild": "pagefind --site out --output-subdir pagefind",
     "preview": "npx serve out",
@@ -12,7 +12,8 @@
     "check-content": "tsx scripts/check-content.ts",
     "redirects": "node scripts/generate-redirects.mjs",
     "check:structure": "tsx scripts/check-structure.ts",
-    "studio": "tsx scripts/studio/server.mts"
+    "studio": "tsx scripts/studio/server.mts",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "github-slugger": "^2.0.0",

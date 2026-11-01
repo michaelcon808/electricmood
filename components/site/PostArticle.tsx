@@ -131,7 +131,7 @@ export async function PostArticle({ post }: { post: Post }) {
                   <span className="font-semibold text-brand-700 dark:text-brand-400">✓ Tested hands-on by our team</span>
                 ) : (
                   <span className="text-neutral-500">
-                    Researched review: based on specs, owner reports and expert sources, not a hands-on test.
+                    How I picked: specs, owner reports and independent test data.
                   </span>
                 )}
               </p>
