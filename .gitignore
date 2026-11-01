@@ -26,3 +26,6 @@ npm-debug.log*
 
 # local working images (served from Cloudinary, never deployed)
 public/Images/
+
+# generated at build time from git history (scripts/generate-lastmod.mjs)
+.lastmod.json

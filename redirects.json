@@ -1,5 +1,20 @@
 [
   {
+    "source": "http://www.electricmood.com/*",
+    "destination": "https://electricmood.com/:splat",
+    "force": true
+  },
+  {
+    "source": "https://www.electricmood.com/*",
+    "destination": "https://electricmood.com/:splat",
+    "force": true
+  },
+  {
+    "source": "http://electricmood.com/*",
+    "destination": "https://electricmood.com/:splat",
+    "force": true
+  },
+  {
     "source": "/electric-scooters/buying-guides/",
     "destination": "/electric-scooters/reviews/"
   },

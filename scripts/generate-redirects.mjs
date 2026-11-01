@@ -1,5 +1,6 @@
 // Converts /redirects.json into public/_redirects (Netlify format) so it ships inside /out.
 // redirects.json: [{ "source": "/old-url/", "destination": "/electric-scooters/guides/new-slug/" }]  -> 301
+// Whole-domain rules: { "source": "http://www.example.com/*", "destination": "https://example.com/:splat", "force": true }
 import { readFileSync, writeFileSync } from 'node:fs';
 
 const entries = JSON.parse(readFileSync(new URL('../redirects.json', import.meta.url), 'utf8'));
@@ -17,8 +18,8 @@ for (const [i, r] of entries.entries()) {
     console.error(`${where}: needs "source" and "destination" strings`);
     process.exit(1);
   }
-  if (!r.source.startsWith('/')) {
-    console.error(`${where}: source must start with "/" (got "${r.source}")`);
+  if (!r.source.startsWith('/') && !/^https?:\/\/[a-z0-9.-]+\//i.test(r.source)) {
+    console.error(`${where}: source must start with "/" or be a full http(s):// URL (got "${r.source}")`);
     process.exit(1);
   }
   if (/\s/.test(r.source) || /\s/.test(r.destination)) {
@@ -30,7 +31,8 @@ for (const [i, r] of entries.entries()) {
     process.exit(1);
   }
   seen.add(r.source);
-  lines.push(`${r.source}  ${r.destination}  301`);
+  // force: true adds "!" so the rule applies even when a file exists at that path (needed for host redirects).
+  lines.push(`${r.source}  ${r.destination}  301${r.force ? '!' : ''}`);
 }
 
 writeFileSync(
