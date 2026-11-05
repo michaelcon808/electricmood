@@ -309,4 +309,52 @@
   .buy-button a:hover { background-color: #ea580c; transform: translateY(-1px); }
   .buy-button a:focus-visible { outline: 3px solid #fdba74; outline-offset: 3px; }
   @media (max-width: 640px) { .buy-button a { display: flex; width: 100%; } }
+
+  /* One product = one bordered card: title, photo, text, specs, pros and cons (see lib/rehype-products.ts) */
+  .product-section {
+    margin: 2.5rem 0;
+    padding: 1.5rem 1.75rem 1.75rem;
+    border: 1px solid #e5e5e5;
+    border-top: 4px solid #f97316;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0 10px 30px -18px rgb(0 0 0 / 0.35);
+  }
+  .product-section > :first-child { margin-top: 0; }
+  .product-section > :last-child { margin-bottom: 0; }
+  @media (max-width: 640px) { .product-section { padding: 1.1rem 0.9rem 1.25rem; border-radius: 0.75rem; } }
+  @media (prefers-color-scheme: dark) {
+    .product-section { background-color: #0a0a0a; border-color: #262626; border-top-color: #f97316; box-shadow: none; }
+  }
+
+  /* With a product photo: the photo is the card, the black "View on Amazon" tag sits bottom right */
+  .buy-card { max-width: 28rem; }
+  .buy-card a {
+    position: relative;
+    display: block;
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #fff;
+    color: inherit !important;
+    border: 1px solid #e5e5e5;
+    box-shadow: none;
+  }
+  .buy-card a::after { content: none; }
+  .buy-card a:hover { background-color: #fff; transform: none; border-color: #a3a3a3; }
+  .buy-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; margin: 0; padding: 1rem 1rem 3.25rem; object-fit: contain; }
+  .buy-card .buy-card-tag {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 0.5rem;
+    background: #000;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .buy-card .buy-card-tag::after { content: ' ↗'; }
+  .buy-card a:hover .buy-card-tag { background: #262626; }
 }
